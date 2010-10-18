@@ -1,0 +1,12 @@
+application: kaslabselvee
+version: 0-1
+runtime: python
+api_version: 1
+
+handlers:
+- url: /
+  script: main.py
+
+- url: /admin.*
+  script: admin.py
+  login: required

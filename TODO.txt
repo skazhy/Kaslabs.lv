@@ -1,0 +1,6 @@
+veel taisaamaas funkcionaalaas lietas:
+========
+1. Salabot autorizaaciju ar Twittera OAuth
+2. Event/venue editoshana caur adminpaneli
+3. Eventu daliishana pa vairaakaam lapaam (ja vajag)
+4. Papildus entiitijas datu modeljiem (venue adrese utt)  
