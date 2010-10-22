@@ -1,0 +1,13 @@
+{% extends "base-adm.html" %}
+{% block adm-content %}
+	{% for venue in venues %}
+	<form action="/admin/storevenue" method="post" accept-charset="utf-8">
+		<div id="venueBlock">
+		<h2>Venue</h2>
+		<input type="hidden" value="{{ venue.key }}" name="venueKey" />
+			<p>Title: </p><input type=text" name="venueTitle" value="{{ venue.title }}" />
+		</div>
+	<p><input type="submit" value="Edit venue" /></p>
+	</form>
+	{% endfor %}
+{% endblock %}

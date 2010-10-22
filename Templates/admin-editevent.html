@@ -1,0 +1,33 @@
+{% extends "base-adm.html" %}
+{% block adm-content %}
+	{% for event in events %}
+	<form action="/admin/store_edit" method="post" accept-charset="utf-8">
+		<input type="hidden" value="{{ event.key }}" name="eventKey" />
+		<div id="eventBlock">
+			<h2>Event</h2>
+			<p>Title: </p><input type=text" name="eventTitle" value="{{ event.title }}" />
+			<p>Venue: </p>
+			<select name="venueKey" id="venueKey">
+			{% for venue in venues %}
+				<option value="{{ venue.key }}"
+				{% ifequal venue.key event.venue.key %}
+					selected="selected"
+				{% endifequal %}
+				>{{ venue.title }}</option>
+			{% endfor %}
+				<option value="createNew">Izveidot jaunu...</option>
+			</select>
+			<p>Event info: </p>
+			<textarea name="eventInfo" rows="8" cols="40">{{ event.information }}</textarea><br />
+			<span>Year:</span><input type="text" name="eventY" value = "{{ event.date.year }}" />
+			<span>Month:</span><input type="text" name="eventM" value = "{{ event.date.month }}" />
+			<span>Day:</span><input type="text" name="eventD" value = "{{ event.date.day }}" />
+		</div>
+		<div id="venueBlock">
+			<h2>Venue</h2>
+			<p>Title: </p><input type=text" name="venueTitle" value="" />
+		</div>
+	<p><input type="submit" value="Edit event" /></p>
+	</form>
+	{% endfor %}
+{% endblock %}

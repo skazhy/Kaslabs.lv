@@ -1,0 +1,26 @@
+{% extends "base-adm.html" %}
+{% block adm-content %}
+	<form action="/admin/store_new" method="post" accept-charset="utf-8">
+		<div id="eventBlock">
+			<h2>Event</h2>
+			<p>Title: </p><input type=text" name="eventTitle" value="" />
+			<p>Venue: </p>
+			<select name="eventVenue" id="eventVenue">
+			{% for venue in venues %}
+				<option value="{{ venue.key.id }}">{{ venue.title }}</option>
+			{% endfor %}
+				<option value="createnew">Izveidot jaunu...</option>
+			</select>
+			<p>Event info: </p>
+			<textarea name="eventInfo" rows="8" cols="40"></textarea><br />
+			<span>Year:</span><input type="text" name="eventY" />
+			<span>Month:</span><input type="text" name="eventM" />
+			<span>Day:</span><input type="text" name="eventD" />
+		</div>
+		<div id="venueBlock">
+			<h2>Venue</h2>
+			<p>Title: </p><input type=text" name="venueTitle" value="" />
+		</div>
+	<p><input type="submit" value="Add event" /></p>
+	</form>
+{% endblock %}

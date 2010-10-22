@@ -19,11 +19,13 @@ class MainPage(webapp.RequestHandler):
             events.pop() 
         if offset > 0:
             newer = page-1
+        if len(events) == 0:
+            older=newer=False
         for event in events :
 			event.date_display = event.date.strftime('%Y/%m/%d')
         template_values = {'events':events, 'newer':newer, 'older':older}
 
-        path = os.path.join(os.path.dirname(__file__),'Templates/base_pub.html')
+        path = os.path.join(os.path.dirname(__file__),'Templates/base-pub.html')
         self.response.out.write(template.render(path,template_values))
 
 application = webapp.WSGIApplication([('/', MainPage),('/page/(.*)',MainPage)],

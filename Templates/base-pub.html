@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+{% for event in events %}
+	<div class="event">
+		<p>{{ event.title }}</p>
+		<p>{{ event.venue.title }}</p>
+		<p>{{ event.information }}</p>
+		<p>{{ event.date_display }}</p><hr />
+	</div>
+{% endfor %}
+{% if older %}
+<a href="/page/{{ older }}">older</a>
+{% endif %}
+{% if newer %}
+    {% ifequal newer 1 %}
+    <a href="/">newer</a>
+    {% else %}
+    <a href="/page/{{ newer }}">newer</a>
+    P{% endifequal %}
+{% endif %}
+
+{% endblock %}
