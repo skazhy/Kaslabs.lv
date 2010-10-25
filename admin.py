@@ -36,7 +36,7 @@ class StoreVenue(webapp.RequestHandler):
         venue = db.get(self.request.get('venueKey'))
         venue.title = self.request.get('venueTitle')
         db.put(venue)
-        self.redirect('/admin')	
+        self.redirect('/admin/edit_venue')	
         
 class StoreEvent(webapp.RequestHandler):
     def post(self,mode):
@@ -62,7 +62,7 @@ class StoreEvent(webapp.RequestHandler):
         event.venue = venue
         db.put(event)
 
-        self.redirect('/admin')	
+        self.redirect('/admin/edit_event')	
 
 application = webapp.WSGIApplication(
                                      [('/admin', AddEvent),('/admin/store_(.*)',StoreEvent),('/admin/edit_event',EditEvent),('/admin/edit_venue',EditVenue),('/admin/storevenue',StoreVenue)],

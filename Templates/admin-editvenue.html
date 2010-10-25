@@ -1,13 +1,55 @@
 {% extends "base-adm.html" %}
+{% block header %}
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js">
+</script>
+<script type="text/javascript">
+$(document).ready( function () {
+	$('.forma').css('display','none');
+	$(".editButton").click( function() { editForm(this); });
+	$(".cancelEdit").click( function() { hideForm(this); });
+});
+
+function editForm(button) {
+	$(button).parent().siblings().css("display","block");
+	$(button).parent().css("display","none");
+};
+
+function hideForm(button) {
+	$(button).parent().siblings().css('display','block');
+	$(button).parent().css('display','none');
+};
+
+function addVenue(form) {
+	var selectValue = $('select option:selected').attr('value');
+	var block = $(form).siblings('.venueBlock');
+	if (selectValue == 'createNew') $(block).css('display','block');
+	else $(block).css('display','none');
+};
+
+</script>
+<style type="text/css">
+.cancelEdit, .editButton {
+	text-decoration:underline;
+	color:navy;
+}
+.venueContainer {
+	border-bottom: 1px solid black;
+}
+</style>
+{% endblock %}
 {% block adm-content %}
 	{% for venue in venues %}
-	<form action="/admin/storevenue" method="post" accept-charset="utf-8">
-		<div id="venueBlock">
-		<h2>Venue</h2>
+	<div class="venueContainer">
+	<form class="forma" action="/admin/storevenue" method="post" accept-charset="utf-8">
 		<input type="hidden" value="{{ venue.key }}" name="venueKey" />
 			<p>Title: </p><input type=text" name="venueTitle" value="{{ venue.title }}" />
-		</div>
 	<p><input type="submit" value="Edit venue" /></p>
+	<p class="cancelEdit">[ Atcelt ]</p>
 	</form>
+	<div class="venuePreview">
+		<p>Nosaukums: {{ venue.title }}</p>
+		<p class="editButton">[ Labot ]</p>
+	</div>
+	</div>
 	{% endfor %}
 {% endblock %}
