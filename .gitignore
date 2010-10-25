@@ -4,3 +4,6 @@
 *.swo
 # Ignore compiled python files
 *.pyc
+
+#Ignore gEdit temp files
+*.*~
