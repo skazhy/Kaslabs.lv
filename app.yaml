@@ -13,7 +13,3 @@ handlers:
 - url: /admin.*
   script: admin.py
   login: required
-
-# static dirs
-- url: /js/.*
-  static_dir: /js

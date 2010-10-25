@@ -4,4 +4,4 @@ veel taisaamaas funkcionaalaas lietas:
 2. Event/venue editoshana caur adminpaneli -done
 3. Eventu daliishana pa vairaakaam lapaam (ja vajag) - done 
 4. Papildus entiitijas datu modeljiem (venue adrese utt) 
-5. Formas editoshanai paraadaas tikai peec klikoshanas 
+5. Formas editoshanai paraadaas tikai peec klikoshanas - done 
