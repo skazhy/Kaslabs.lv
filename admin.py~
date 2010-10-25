@@ -38,7 +38,8 @@ class StoreVenue(webapp.RequestHandler):
 	venue.city = self.request.get('venueCity')
 	venue.address = self.request.get('venueAddress')
 	venue.web = self.request.get('venueWeb')
-	db.put(venue)
+	venue.contacts = self.request.get('venueContacts')
+        db.put(venue)
         self.redirect('/admin/edit_venue')	
         
 class StoreEvent(webapp.RequestHandler):
@@ -62,6 +63,7 @@ class StoreEvent(webapp.RequestHandler):
 			venue.city = self.request.get('venueCity')
 			venue.address = self.request.get('venueAddress')
 			venue.web = self.request.get('venueWeb')
+			venue.contacts = self.request.get('venueContacts')
 			venue.put()
         else:
             venue = db.get(venueKey)

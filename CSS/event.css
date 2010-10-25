@@ -1,0 +1,41 @@
+body {
+	font-family:Helvetica, sans-serif;
+	background: url('/Img/bg.jpg') fixed;
+	margin: 20px;
+	padding: 0;
+	color: #000000;
+}
+#container, #container a {
+	width: 100%;
+	text-align:left;
+	text-decoration:none;	
+}
+#mainContent, a #mainContent, a:visited #mainContent{
+	background:url('/Img/event-bg1.png');
+	color:#e5dcbf;
+	padding:50px;
+		text-align:left;
+
+	-moz-border-radius: 15px;
+	-khtml-border-radius: 15px;
+	-webkit-border-radius: 15px;
+	border-radius: 15px;
+	text-decoration:none;
+}
+
+a:hover #mainContent{
+	text-decoration:none;
+	background:url('/Img/event-bg2.png');
+	}
+
+h1{
+	font-size:20px;
+	border-bottom:1px solid #e5dcbf;
+	letter-spacing:-0.5px;
+	text-decoration:none;
+	}
+
+p {
+	font-size:12px;
+	text-decoration:none;
+	}

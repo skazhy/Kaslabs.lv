@@ -3,5 +3,7 @@ veel taisaamaas funkcionaalaas lietas:
 1. Salabot autorizaaciju ar Twittera OAuth
 2. Event/venue editoshana caur adminpaneli -done
 3. Eventu daliishana pa vairaakaam lapaam (ja vajag) - done 
-4. Papildus entiitijas datu modeljiem (venue adrese utt) 
-5. Formas editoshanai paraadaas tikai peec klikoshanas - done 
+4. Papildus entiitijas datu modeljiem (venue adrese utt) - +/-done 
+5. Formas editoshanai paraadaas tikai peec klikoshanas - done
+6. Pasaakumu sorteeshana
+7. GoogleMaps embedeeshana vai links uz koordinaataam 

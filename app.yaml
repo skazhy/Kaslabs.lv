@@ -1,5 +1,5 @@
 application: kaslabselvee
-version: 0-1-4
+version: 0-2
 runtime: python
 api_version: 1
 
@@ -13,3 +13,12 @@ handlers:
 - url: /admin.*
   script: admin.py
   login: required
+
+- url: /CSS
+  static_dir: CSS
+
+- url: /Img
+  static_dir: Img
+
+- url: /p/(\d+)
+  script: event.py

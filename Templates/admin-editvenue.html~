@@ -45,7 +45,7 @@ function addVenue(form) {
 			<span>Title: </span><input type=text" name="venueTitle" value="{{ venue.title }}" />
 			<span>Venue city: </span><input type=text" name="venueCity" value="{{ venue.city }}" />
 			<span>Venue address: </span>
-			<div><textarea name="venueAddress">{{ venue.address }}</textarea></div>
+			<div><textarea name="venueAddress">{{ venue.address }}</textarea>
 			<span>Venue Webpage: </span><input type=text" name="venueWeb" value="{{ venue.web }}" />
 	<p><input type="submit" value="Edit venue" /></p>
 	<p class="cancelEdit">[ Atcelt ]</p>

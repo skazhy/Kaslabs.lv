@@ -22,8 +22,8 @@ class MainPage(webapp.RequestHandler):
         if len(events) == 0:
             older=newer=False
         for event in events :
-		if len(event.title) < 15:
-			event.divLen = 240
+		if len(event.title) < 12:
+			event.divLen = 260
 		else:
 			event.divLen = 16*len(event.title)
 		event.date_display = event.date.strftime('%R')

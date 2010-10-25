@@ -40,7 +40,7 @@ function addVenue(form) {
 			<span>Venue title: </span><input type=text" name="venueTitle" value="" />
 			<span>Venue city: </span><input type=text" name="venueCity" value="" />
 			<span>Venue address: </span>
-			<div><textarea name="venueAddress"></textarea></div>
+			<div><textarea name="venueAddress"></textarea>
 			<span>Venue Webpage: </span><input type=text" name="venueWeb" value="" />
 		</div>
 	<p><input type="submit" value="Add event" /></p>

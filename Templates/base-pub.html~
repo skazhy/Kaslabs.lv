@@ -4,7 +4,7 @@
 {% endblock %}
 {% block content %}
 {% for event in events %}
-	<a href="/p/{{ event.key.id }}"><div id="mainContent" style="width:{{ event.divLen }}px;">
+	<a href="#"><div id="mainContent" style="width:{{ event.divLen }}px;">
 	<div class="time_rotate">{{ event.date_display }}</div>
 	<h1>{{ event.title }}</h1>
 	<p style="height:58px;overflow:hidden;">{{ event.information }}</p>
