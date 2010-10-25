@@ -7,3 +7,4 @@ veel taisaamaas funkcionaalaas lietas:
 5. Formas editoshanai paraadaas tikai peec klikoshanas - done
 6. Pasaakumu sorteeshana
 7. GoogleMaps embedeeshana vai links uz koordinaataam 
+8. Latviskie meeneshu nosaukumi

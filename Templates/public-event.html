@@ -5,6 +5,7 @@
 {% block content %}
 	<center><p>
 	<div id="mainContent" style="width:700px;">
+	{% if id %}
 	<h1>{{ event.title }}</h1>
 	<p><strong>Datums:</strong> {{ event.date_display }} - 
 	<strong>Laiks:</strong> {{ event.time_display }} -
@@ -14,6 +15,9 @@
 	Adrese: {{ event.venue.address }}<br/>
     	E-adrese: <a href="{{ event.venue.web }}">{{ event.venue.web }}</a><br/> 
         <a href="#">karte</a></p>
+	{% else %}
+	<p>Pasākums netika atrasts. Meklē citu ballīti!</p>
+	{% endif %}
      <a href="/" style="font-size:11px;font-color:#fff;text-decoration:none;"><-- atpakaļ</a></p></div>	
                          </center>
 
