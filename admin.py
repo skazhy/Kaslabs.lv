@@ -20,6 +20,8 @@ class EditEvent(webapp.RequestHandler):
 		events_query = Event.all().order('-date') 
 		events = events_query.fetch(10)
 		template_values = {'venues':venues, 'events':events}
+		path = os.path.join(os.path.dirname(__file__),'Templates/admin-editevent.html')
+		self.response.out.write(template.render(path,template_values))
 
 class EditVenue(webapp.RequestHandler):
     def get(self):
@@ -42,16 +44,16 @@ class StoreEvent(webapp.RequestHandler):
             event = Event()
         if mode == "edit":
             event = db.get(self.request.get('eventKey'))
-
         event.title = self.request.get('eventTitle')
         event.information = self.request.get('eventInfo')
-        venueKey = self.request.get('venueKey')
+
         year = int(self.request.get('eventY'))
         month = int(self.request.get('eventM'))
         day = int(self.request.get('eventD'))
         event.date = datetime.datetime(year,month,day)
 		
-        if (venueKey == 'createNew'):
+        venueKey = self.request.get('venueKey')
+        if venueKey == 'createNew':
 			venue = Venue()
 			venue.title = self.request.get('venueTitle')
 			venue.put()
