@@ -1,5 +1,6 @@
 {% extends "base-adm.html" %}
 {% block header %}
+<link rel="stylesheet" type="text/css" href="/CSS/admin.css" media="screen" />
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js">
 </script>
 <script type="text/javascript">
@@ -21,6 +22,7 @@ function hideForm(button) {
 	$(button).parent().css('display','none');
 };
 
+//shite kautkas gljuko
 function addVenue(form) {
 	var selectValue = $('select option:selected').attr('value');
 	var block = $(form).siblings('.venueBlock');
@@ -29,55 +31,51 @@ function addVenue(form) {
 };
 
 </script>
-<style type="text/css">
-.cancelEdit, .editButton {
-	text-decoration:underline;
-	color:navy;
-}
-.formContainer {
-	border-bottom: 1px solid black;
-}
-textarea {
-	display: block;
-}
-</style>
 {% endblock %}
 {% block adm-content %}
 	<div id="formWrapper">
 	{% for event in events %}
-	<div class="formContainer">
+	<div class="mainContent">
 	<form action="/admin/store_edit" class="forma" method="post" >
-		<input type="hidden" value="{{ event.key }}" name="eventKey" />
-			<input type=text" name="eventTitle" value="{{ event.title }}" />
-			<select name="venueKey" class="venueKey">
-			{% for venue in venues %}
-				<option value="{{ venue.key }}"
-				{% ifequal venue.key event.venue.key %}
-					selected="selected"
-				{% endifequal %}
-				>{{ venue.title }}</option>
-			{% endfor %}
-				<option value="createNew">Izveidot jaunu...</option>
-			</select>
-			<textarea name="eventInfo" rows="8" cols="40">{{ event.information }}</textarea><br />
-			<span>Year:</span><input type="text" name="eventY" value = "{{ event.date.year }}" />
-			<span>Month:</span><input type="text" name="eventM" value = "{{ event.date.month }}" />
-			<span>Day:</span><input type="text" name="eventD" value = "{{ event.date.day }}" />
-		<div class="venueBlock">
-			<span>New Venue:</span><input type=text" name="venueTitle" value="" />
-			<span>Venue city: </span><input type=text" name="venueCity" value="" />
-			<span>Venue address: </span>
-			<div><textarea name="venueAddress"></textarea></div>
-			<span>Venue Webpage: </span><input type=text" name="venueWeb" value="" />
+		 <h3>Labot &quot;{{ event.title }}&quot;</h3>
+			<label for="eventTitle">Nosaukums: </label>
+                <input type=text" name="eventTitle" id="eventTitle" value="{{ event.title }}" />
+			<label for="venueKey">Norises vieta: </label>
+                <select name="venueKey" id="venueKey">
+                {% for venue in venues %}
+                    <option value="{{ venue.key }}"
+                    {% ifequal venue.key event.venue.key %}
+                    selected="selected"
+                    {% endifequal %}
+                    >{{ venue.title }}</option>
+                {% endfor %}
+                    <option value="createNew">Izveidot jaunu...</option>
+                </select>
+			<div><span>Pasākuma apraksts: </span></div>
+			    <textarea name="eventInfo" rows="8" cols="40">{{ event.information }}</textarea><br />
+		    <p>jQuery datepicker goes here, pagaidām piesaistās laiks saglabāšanas brīdī.</p>
+        <div class="venueBlock">
+            <hr />
+            <h3>Jauna pasākumu norises vieta:</h3>
+			<label for="venueTitle">Nosaukums: </label>
+                <input type=text" id="venueTitle" name="venueTitle" value="" />
+            <br />
+			<label for="venueCity">Pilsēta: </label>
+                <input type=text" id="venueCity" name="venueCity" value="" />
+			<div><span>Adrese: </span></div>
+			    <textarea name="venueAddress" rows="8" cols="40"></textarea><br />
+			<label for="venueWeb">Mājaslapa: </label>
+                <input type=text" id="venueWeb" name="venueWeb" value="" />
+            <hr />
 		</div>
-	<p><input type="submit" value="Edit event" /></p>
+	<p><input type="submit" value="Labot pasākumu" /></p>
 	<p class="cancelEdit">[ Atcelt rediģēšanu ]</p>
 	</form>
 	<div class="formPreview">
-		<p>Pasākuma nosaukums: {{ event.title }}</p>
-		<p>Apraksts: {{ event.information }}</p>
-		<p>Datums: {{ event.date.year }}/{{ event.date.month}}/{{ event.date.day }}</p>
-		<p>Norises vieta: {{ event.venue.title }}</p>
+        <p><strong>{{ event.title }}</strong></p>
+        <p>{{ event.information }}</p>
+        <p>Datums & laiks jāizlabo lai rādās tādā pašā formātā, kā public-event.html</p>
+        <p>Norises vieta:  {{ event.venue.title }}</p>
 		<p class="editButton">[ Rediģēt pasākumu ]</p>
 	</div>
 	</div>

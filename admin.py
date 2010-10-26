@@ -50,10 +50,11 @@ class StoreEvent(webapp.RequestHandler):
         event.title = self.request.get('eventTitle')
         event.information = self.request.get('eventInfo')
 
-        year = int(self.request.get('eventY'))
-        month = int(self.request.get('eventM'))
-        day = int(self.request.get('eventD'))
-        event.date = datetime.datetime(year,month,day)
+        event.date = datetime.datetime.now()
+        #year = int(self.request.get('eventY'))
+        #month = int(self.request.get('eventM'))
+        #day = int(self.request.get('eventD'))
+        #event.date = datetime.datetime(year,month,day)
 		
         venueKey = self.request.get('venueKey')
         if venueKey == 'createNew':

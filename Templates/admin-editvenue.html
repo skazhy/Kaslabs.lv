@@ -1,5 +1,6 @@
 {% extends "base-adm.html" %}
 {% block header %}
+<link rel="stylesheet" type="text/css" href="/CSS/admin.css" media="screen" />
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js">
 </script>
 <script type="text/javascript">
@@ -39,15 +40,21 @@ function addVenue(form) {
 {% endblock %}
 {% block adm-content %}
 	{% for venue in venues %}
-	<div class="venueContainer">
+	<div class="mainContent">
 	<form class="forma" action="/admin/storevenue" method="post" accept-charset="utf-8">
 		<input type="hidden" value="{{ venue.key }}" name="venueKey" />
-			<span>Title: </span><input type=text" name="venueTitle" value="{{ venue.title }}" />
-			<span>Venue city: </span><input type=text" name="venueCity" value="{{ venue.city }}" />
-			<span>Venue address: </span>
-			<div><textarea name="venueAddress">{{ venue.address }}</textarea></div>
-			<span>Venue Webpage: </span><input type=text" name="venueWeb" value="{{ venue.web }}" />
-	<p><input type="submit" value="Edit venue" /></p>
+            <h4>Labot &quot;{{ venue.title }}&quot;</h4>
+			<label for="venueTitle">Nosaukums: </label>
+                <input type=text" id="venueTitle" name="venueTitle" value="{{ venue.title }}" />
+            <br />
+            <h4>Labot &quot;{{ venue.title }}&quot;</h4>
+			<label for="venueCity">Pilsēta: </label>
+                <input type=text" id="venueCity" name="venueCity" value="{{ venue.city }}" />
+			<div><span>Adrese: </span></div>
+			    <textarea name="venueAddress" rows="8" cols="40">{{ venue.address }}</textarea><br />
+			<label for="venueWeb">Mājaslapa: </label>
+                <input type=text" id="venueWeb" name="venueWeb" value="{{ venue.web }}" />
+	<p><input type="submit" value="Labot norises vietu" /></p>
 	<p class="cancelEdit">[ Atcelt ]</p>
 	</form>
 	<div class="venuePreview">

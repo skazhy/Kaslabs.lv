@@ -1,12 +1,12 @@
 {% extends "base-adm.html" %}
 {% block header %}
+<link rel="stylesheet" type="text/css" href="/CSS/admin.css" media="screen" />
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js">
 </script>
 <script type="text/javascript">
 $(document).ready( function () {
 	var selectValue = $('select option:selected').attr('value');
-	var block = $(form).siblings('#venueBlock');
-	if (selectValue != 'createNew')  {
+	if (selectValue !== 'createNew')  {
 		$("#venueBlock").css("display","none");
 	}
 	$("#venueKey").change( function() { addVenue(this); });
@@ -22,27 +22,37 @@ function addVenue(form) {
 
 {% endblock %}
 {% block adm-content %}
+ 
+	<div id="mainContent">
 	<form action="/admin/store_new" method="post" accept-charset="utf-8">
-			<p>Title: </p><input type=text" name="eventTitle" value="" />
-			<p>Venue: </p>
-			<select name="venueKey" id="venueKey">
-			{% for venue in venues %}
-				<option value="{{ venue.key }}">{{ venue.title }}</option>
-			{% endfor %}
-				<option value="createNew">Izveidot jaunu...</option>
-			</select>
-			<p>Event info: </p>
-			<textarea name="eventInfo" rows="8" cols="40"></textarea><br />
-			<span>Year:</span><input type="text" name="eventY" />
-			<span>Month:</span><input type="text" name="eventM" />
-			<span>Day:</span><input type="text" name="eventD" />
-		<div id="venueBlock">
-			<span>Venue title: </span><input type=text" name="venueTitle" value="" />
-			<span>Venue city: </span><input type=text" name="venueCity" value="" />
-			<span>Venue address: </span>
-			<div><textarea name="venueAddress"></textarea></div>
-			<span>Venue Webpage: </span><input type=text" name="venueWeb" value="" />
+            <h2>Jauns pasākums:</h2>
+			<label for="eventTitle">Nosaukums: </label>
+                <input type=text" name="eventTitle" id="eventTitle" value="" />
+			<label for="venueKey">Norises vieta: </label>
+                <select name="venueKey" id="venueKey">
+                {% for venue in venues %}
+                    <option value="{{ venue.key }}">{{ venue.title }}</option>
+                {% endfor %}
+                    <option value="createNew">Izveidot jaunu...</option>
+                </select>
+			<div><span>Pasākuma apraksts: </span></div>
+			    <textarea name="eventInfo" rows="8" cols="40"></textarea><br />
+		    <p>jQuery datepicker goes here, pagaidām piesaistās laiks saglabāšanas brīdī.</p>
+        <div id="venueBlock">
+            <hr />
+            <h2>Jauna pasākumu norises vieta:</h2>
+			<label for="venueTitle">Nosaukums: </label>
+                <input type=text" id="venueTitle" name="venueTitle" value="" />
+            <br />
+			<label for="venueCity">Pilsēta: </label>
+                <input type=text" id="venueCity" name="venueCity" value="" />
+			<div><span>Adrese: </span></div>
+			    <textarea name="venueAddress" rows="8" cols="40"></textarea><br />
+			<label for="venueWeb">Mājaslapa: </label>
+                <input type=text" id="venueWeb" name="venueWeb" value="" />
+            <hr />
 		</div>
-	<p><input type="submit" value="Add event" /></p>
+	<p><input type="submit" value="Pievienot pasākumu" /></p>
 	</form>
+    </div>
 {% endblock %}
