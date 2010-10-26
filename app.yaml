@@ -22,3 +22,6 @@ handlers:
 
 - url: /p/(\d+)
   script: event.py
+
+- url: /kad/(\d+|\d+-\d+)
+  script: filter.py

@@ -11,7 +11,7 @@ class MainPage(webapp.RequestHandler):
         # page = int(page)
         # older = newer = False
         # offset = page*epp-epp
-        events_query = Event.all().filter('date == ', datetime.datetime.today()).order('date')
+        events_query = Event.all().filter('date >= ', datetime.date.today()).order('date')
         #events = events_query.fetch(limit = epp+1, offset = offset)
         events = events_query.fetch(limit = 100) # shitais jaapaartaisa
         """
@@ -23,7 +23,7 @@ class MainPage(webapp.RequestHandler):
         if len(events) == 0:
             older=newer=False
         """
-        for event in events :
+        for event in events:
 		if len(event.title) < 15:
 			event.divLen = 240
 		else:

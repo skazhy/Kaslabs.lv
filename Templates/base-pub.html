@@ -17,6 +17,11 @@
 {% if older %}
 <a href="/page/{{ older }}">older</a>
 {% endif %}
+{% if error %}
+	<div id="mainContent" style="width:700px;">
+	<p>Pasākumi netika atrasti. Meklē citu ballīti!</p>
+ <a href="/" style="font-size:11px;font-color:#fff;text-decoration:none;"><-- atpakaļ</a></p></div>	
+{% endif %} 
 {% if newer %}
     {% ifequal newer 1 %}
     <a href="/">newer</a>
