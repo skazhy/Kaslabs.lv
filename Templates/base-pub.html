@@ -2,6 +2,9 @@
 {% block header %}
 <link rel="stylesheet" type="text/css" href="/CSS/main.css" media="screen" />
 {% endblock %}
+{% block pageheader %}
+<img src="/Img/kaslabs.png" />
+{% endblock %}
 {% block content %}
 {% for event in events %}
 	<a href="/p/{{ event.key.id }}"><div id="mainContent" style="width:{{ event.divLen }}px;">
