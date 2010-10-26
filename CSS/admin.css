@@ -63,8 +63,9 @@ p {
     padding-bottom:20px;
 }
 
-#header a {
+#header a, #header span {
 	color:#e5dcbf;
+	text-shadow:#000 0px 0px 7px;
 }
 #header a:hover {
     text-decoration:underline;

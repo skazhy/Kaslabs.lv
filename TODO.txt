@@ -8,5 +8,5 @@ veel taisaamaas funkcionaalaas lietas:
 6. Pasaakumu sorteeshana
 7. GoogleMaps embedeeshana vai links uz koordinaataam 
 8. Latviskie meeneshu nosaukumi
-9. Salabot addVenue funkciju editevents templeitaa
+9. Salabot addVenue funkciju editevents templeitaa - done
 10. Pielikt datepickeri ieksh addevent un editevent
