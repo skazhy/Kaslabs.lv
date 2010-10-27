@@ -1,6 +1,9 @@
 {% extends "base-pub.html" %}
 {% block header %}
 <link rel="stylesheet" type="text/css" href="/CSS/event.css" media="screen" />
+<script type="text/javascript" src="/JS/prototype.js"></script>
+<script type="text/javascript" src="/JS/scriptaculous.js?load=effects,builder"></script>
+<script type="text/javascript" src="/JS/lightbox.js"></script> <link rel="stylesheet" href="/CSS/lightbox.css" type="text/css" media="screen" />
 {% endblock %}
 {% block content %}
 	<center><p>
@@ -14,7 +17,7 @@
 	<p>{{ event.venue.title }}<br/>
 	Adrese: {{ event.venue.address }}<br/>
     	E-adrese: <a href="{{ event.venue.web }}">{{ event.venue.web }}</a><br/> 
-        <a href="#">karte</a></p>
+    <a href="http://maps.google.com/maps/api/staticmap?center={{ event.venue.address }}&size=450x450&markers={{ event.venue.address }}&sensor=false" rel="lightbox">karte</a></p>
 	{% else %}
 	<p>Pasākums netika atrasts. Meklē citu ballīti!</p>
 	{% endif %}

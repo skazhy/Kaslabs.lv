@@ -25,3 +25,6 @@ handlers:
 
 - url: /kad/(\d+|\d+-\d+)
   script: filter.py
+
+- url: /JS
+  static_dir: JS
