@@ -51,15 +51,13 @@ class StoreEvent(webapp.RequestHandler):
         event.information = self.request.get('eventInfo')
         date = self.request.get('eventDate')
         time = self.request.get('eventTime')		
-        event.date = datetime.datetime(int(date[0:4]),
+        # kameer nav datepickers, lai ir shitaa
+        if mode == "new":
+            event.date = datetime.datetime(int(date[0:4]),
 									   int(date[5:7]),
                                        int(date[8:10]),
                                        int(time[0:2]),int(time[3:5]))
-        #year = int(self.request.get('eventY'))
-        #month = int(self.request.get('eventM'))
-        #day = int(self.request.get('eventD'))
-        #event.date = datetime.datetime(year,month,day)
-		
+        
         venueKey = self.request.get('venueKey')
         if venueKey == 'createNew':
 			venue = Venue()

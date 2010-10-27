@@ -37,6 +37,7 @@ function addVenue(select) {
 	<div class="mainContent">
 	<form action="/admin/store_edit" class="forma" method="post" >
 		 <h3>Labot &quot;{{ event.title }}&quot;</h3>
+            <input type="hidden" name="eventKey" value="{{ event.key }}" />
 			<label for="eventTitle">Nosaukums: </label>
                 <input type=text" name="eventTitle" id="eventTitle" value="{{ event.title }}" />
 			<label for="venueKey">Norises vieta: </label>
