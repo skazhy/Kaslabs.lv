@@ -3,8 +3,11 @@
 <link rel="stylesheet" type="text/css" href="/CSS/admin.css" media="screen" />
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js">
 </script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
 <script type="text/javascript">
 $(document).ready( function () {
+	$("#datepicker").datepicker({altField: '#eventDate',
+								 altFormat: 'yy-mm-dd'});
 	var selectValue = $('select option:selected').attr('value');
 	if (selectValue !== 'createNew')  {
 		$("#venueBlock").css("display","none");
@@ -19,7 +22,9 @@ function addVenue(form) {
 	else $(block).css('display','none');
 };
 </script>
-
+<style type="text/css">
+#datepicker { width:50px; }
+</style>
 {% endblock %}
 {% block adm-content %}
  
@@ -37,7 +42,10 @@ function addVenue(form) {
                 </select>
 			<div><span>Pasākuma apraksts: </span></div>
 			    <textarea name="eventInfo" rows="8" cols="40"></textarea><br />
-		    <p>jQuery datepicker goes here, pagaidām piesaistās laiks saglabāšanas brīdī.</p>
+		    <div id="datepicker"></div>
+			<input type="hidden" id="eventDate" name="eventDate" />
+			<label for="eventTime">Laiks (hh:mm): </label>
+                <input type=text" name="eventTime" id="eventTime" value="" />
         <div id="venueBlock">
             <hr />
             <h2>Jauna pasākumu norises vieta:</h2>

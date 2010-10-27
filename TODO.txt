@@ -10,3 +10,5 @@ veel taisaamaas funkcionaalaas lietas:
 8. Latviskie meeneshu nosaukumi
 9. Salabot addVenue funkciju editevents templeitaa - done
 10. Pielikt datepickeri ieksh addevent un editevent
+11. Laiku validaacija
+12. Optimizeet lightbox

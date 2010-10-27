@@ -49,8 +49,12 @@ class StoreEvent(webapp.RequestHandler):
             event = db.get(self.request.get('eventKey'))
         event.title = self.request.get('eventTitle')
         event.information = self.request.get('eventInfo')
-
-        event.date = datetime.datetime.now()
+        date = self.request.get('eventDate')
+        time = self.request.get('eventTime')		
+        event.date = datetime.datetime(int(date[0:4]),
+									   int(date[5:7]),
+                                       int(date[8:10]),
+                                       int(time[0:2]),int(time[3:5]))
         #year = int(self.request.get('eventY'))
         #month = int(self.request.get('eventM'))
         #day = int(self.request.get('eventD'))
