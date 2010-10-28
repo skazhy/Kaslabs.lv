@@ -14,14 +14,18 @@ class AddEvent(webapp.RequestHandler):
 		self.response.out.write(template.render(path,template_values))
 
 class EditEvent(webapp.RequestHandler):
-	def get(self):
-		venues_query = Venue.all().order('title')
-		venues = venues_query.fetch(10)
-		events_query = Event.all().order('-date') 
-		events = events_query.fetch(10)
-		template_values = {'venues':venues, 'events':events}
-		path = os.path.join(os.path.dirname(__file__),'Templates/admin-editevent.html')
-		self.response.out.write(template.render(path,template_values))
+    def get(self):
+        venues_query = Venue.all().order('title')
+        venues = venues_query.fetch(10)
+        events_query = Event.all().order('-date') 
+        events = events_query.fetch(10)
+        for event in events:
+            event.time_display = event.date.strftime('%R')
+            event.date_display = event.date.strftime('%-d. %B, %Y')
+            event.date_form = event.date.strftime('%Y-%m-%d')
+        template_values = {'venues':venues, 'events':events}
+        path = os.path.join(os.path.dirname(__file__),'Templates/admin-editevent.html')
+        self.response.out.write(template.render(path,template_values))
 
 class EditVenue(webapp.RequestHandler):
     def get(self):
@@ -51,9 +55,7 @@ class StoreEvent(webapp.RequestHandler):
         event.information = self.request.get('eventInfo')
         date = self.request.get('eventDate')
         time = self.request.get('eventTime')		
-        # kameer nav datepickers, lai ir shitaa
-        if mode == "new":
-            event.date = datetime.datetime(int(date[0:4]),
+        event.date = datetime.datetime(int(date[0:4]),
 									   int(date[5:7]),
                                        int(date[8:10]),
                                        int(time[0:2]),int(time[3:5]))
