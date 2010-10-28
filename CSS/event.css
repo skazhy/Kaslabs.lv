@@ -4,6 +4,7 @@ body {
 	margin: 20px;
 	padding: 0;
 	color: #000000;
+	text-align: center; /* this centers the container in IE 5* browsers. The text is then set to the left aligned default in the #container selector */
 }
 #container, #container a {
 	width: 100%;
