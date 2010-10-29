@@ -83,5 +83,16 @@ function addVenue(select) {
 	</div>
 	</div>
 	{% endfor %}
+    
 	</div>
+{% if older %}
+<div><a href="/admin/edit_event/{{ older }}">Vecāki pasākumi</a></div>
+{% endif %}
+{% if newer %}
+    {% ifequal newer 1 %}
+    <a href="/admin/edit_event">Jaunāki pasākumi</a>
+    {% else %}
+    <a href="/admin/edit_event/{{ newer }}">Jaunāki pasākumi</a>
+    P{% endifequal %}
+{% endif %}
 {% endblock %}

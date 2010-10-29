@@ -14,16 +14,32 @@ class AddEvent(webapp.RequestHandler):
 		self.response.out.write(template.render(path,template_values))
 
 class EditEvent(webapp.RequestHandler):
-    def get(self):
+    def get(self,page=1):
+        epp = 2 # pasaakumu skaits lapaa 
+        page = int(page)
+        older = newer = False
+        offset = page*epp-epp
+		
         venues_query = Venue.all().order('title')
         venues = venues_query.fetch(10)
+        
         events_query = Event.all().order('-date') 
-        events = events_query.fetch(10)
+        events = events_query.fetch(offset=offset, limit=epp+1)
+        if len(events) == epp+1:
+            older = page+1
+            events.pop() 
+        if offset > 0:
+            newer = page-1
+        if len(events) == 0:
+            older=newer=False
         for event in events:
             event.time_display = event.date.strftime('%R')
             event.date_display = event.date.strftime('%-d. %B, %Y')
             event.date_form = event.date.strftime('%Y-%m-%d')
-        template_values = {'venues':venues, 'events':events}
+        template_values = {'venues':venues, 
+                           'events':events,
+                           'older':older,
+                           'newer':newer }
         path = os.path.join(os.path.dirname(__file__),'Templates/admin-editevent.html')
         self.response.out.write(template.render(path,template_values))
 
@@ -75,8 +91,12 @@ class StoreEvent(webapp.RequestHandler):
 
         self.redirect('/admin/edit_event')	
 
-application = webapp.WSGIApplication(
-                                     [('/admin', AddEvent),('/admin/store_(.*)',StoreEvent),('/admin/edit_event',EditEvent),('/admin/edit_venue',EditVenue),('/admin/storevenue',StoreVenue)],
+application = webapp.WSGIApplication([('/admin', AddEvent),
+                                      ('/admin/store_(.*)',StoreEvent),
+                                      ('/admin/edit_event',EditEvent),
+                                      ('/admin/edit_event/(.*)',EditEvent),
+                                      ('/admin/edit_venue',EditVenue),
+                                      ('/admin/storevenue',StoreVenue)],
                                      debug=True)
 
 def main():

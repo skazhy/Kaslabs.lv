@@ -7,8 +7,8 @@ handlers:
 - url: /
   script: main.py
 
-- url: /page/.*
-  script: main.py
+#- url: /page/.*
+#  script: main.py
 
 - url: /admin.*
   script: admin.py
@@ -22,6 +22,9 @@ handlers:
 
 - url: /p/(\d+)
   script: event.py
+
+- url: /kur/.*
+  script: filter.py
 
 - url: /kad/(\d+|\d+-\d+)
   script: filter.py

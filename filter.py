@@ -55,7 +55,18 @@ class TimeFilter(webapp.RequestHandler):
         path = os.path.join(os.path.dirname(__file__),'Templates/base-pub.html')
         self.response.out.write(template.render(path,template_values))
 
-application = webapp.WSGIApplication([('/kad/(.*)',TimeFilter)],debug=True)
+class LocationFilter(webapp.RequestHandler):
+    def get(self,city):
+        error = False
+        ev_query = Event.all().ancestor('venue').filter(' city == ', city)
+        events = ev_query.fetch(limit = 100)
+        print events
+        template_values = {'events':events,'error':error}
+
+        path = os.path.join(os.path.dirname(__file__),'Templates/base-pub.html')
+        self.response.out.write(template.render(path,template_values))
+
+application = webapp.WSGIApplication([('/kad/(.*)',TimeFilter),('/kur/(.*)',LocationFilter)],debug=True)
 
 def main():
     run_wsgi_app(application)
