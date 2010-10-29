@@ -75,7 +75,13 @@ class StoreEvent(webapp.RequestHandler):
 									   int(date[5:7]),
                                        int(date[8:10]),
                                        int(time[0:2]),int(time[3:5]))
-        
+        if (self.request.get('dateType') == 'e'):
+            end_date = self.request.get('eventDate_end')
+            end_time = self.request.get('eventTime_end')		
+            event.endDate = datetime.datetime(int(end_date[0:4]),
+									   int(end_date[5:7]),
+                                       int(end_date[8:10]),
+                                       int(end_time[0:2]),int(end_time[3:5]))
         venueKey = self.request.get('venueKey')
         if venueKey == 'createNew':
 			venue = Venue()

@@ -6,6 +6,8 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
 <script type="text/javascript">
 $(document).ready( function () {
+	$("#datepicker_end").datepicker({altField: '#eventDate_end',
+								 altFormat: 'yy-mm-dd'});
 	$("#datepicker").datepicker({altField: '#eventDate',
 								 altFormat: 'yy-mm-dd'});
 	var selectValue = $('select option:selected').attr('value');
@@ -13,6 +15,10 @@ $(document).ready( function () {
 		$("#venueBlock").css("display","none");
 	}
 	$("#venueKey").change( function() { addVenue(this); });
+	$("input[name=dateType]:radio").change( function() { chDate(this); });
+	$("#datepicker_end").css('display','none');
+	$(".datepicker_end").css('display','none');
+	$("#eventTime_end").css('display','none');
 });
 
 function addVenue(form) {
@@ -20,6 +26,20 @@ function addVenue(form) {
 	var block = $(form).siblings('#venueBlock');
 	if (selectValue == 'createNew') $(block).css('display','block');
 	else $(block).css('display','none');
+};
+
+function chDate(radio) {
+	var valu = $(radio).attr('value');
+	if (valu == 's') {
+		$("#datepicker_end").css('display','none');
+		$(".datepicker_end").css('display','none');
+		$("#eventTime_end").css('display','none');
+	}
+	if (valu == 'e') {
+		$("#datepicker_end").css('display','block');
+		$("h3.datepicker_end").css('display','block');
+		$("#eventTime_end").css('display','inline');
+	}	
 };
 </script>
 <style type="text/css">
@@ -41,11 +61,21 @@ function addVenue(form) {
                     <option value="createNew">Izveidot jaunu...</option>
                 </select>
 			<div><span>Pasākuma apraksts: </span></div>
-			    <textarea name="eventInfo" rows="8" cols="40"></textarea><br />
+			    <textarea name="eventInfo" rows="8" cols="40"></textarea><br /><br />
+<input type="radio" value="s" name="dateType" id="justStart" checked="checked">
+                <label for="justStart">Rādīt tikai sākuma laiku</label><br />
+<input type="radio" value="e" name="dateType" id="startEnd">
+                <label for="startEnd">Rādīt sākuma & beigu laikus</label><br />
+            <h3>Sākuma laiks:</h3>
 		    <div id="datepicker"></div>
 			<input type="hidden" id="eventDate" name="eventDate" />
 			<label for="eventTime">Laiks (hh:mm): </label>
                 <input type=text" name="eventTime" id="eventTime" value="" />
+            <h3 class="datepicker_end">Beigu laiks:</h3>
+            <div id="datepicker_end"></div>
+			<input type="hidden" id="eventDate_end" name="eventDate_end" />
+			<label class="datepicker_end" for="eventTime">Laiks (hh:mm): </label>
+                <input type=text" name="eventTime_end" id="eventTime_end" value="" />
         <div id="venueBlock">
             <hr />
             <h2>Jauna pasākumu norises vieta:</h2>
