@@ -1,5 +1,6 @@
 import os, cgi, datetime
 from dbmodels import *
+from datetime import timedelta
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.ext.webapp import template
@@ -32,6 +33,7 @@ class TimeFilter(webapp.RequestHandler):
             try:
                  start_date = datetime.date(start_year,start_month,start_day)
                  end_date = datetime.date(end_year,end_month,end_day)
+                 end_date = end_date + timedelta(days=1)
             except ValueError:
                  error = True
                  time_format = False
@@ -39,11 +41,27 @@ class TimeFilter(webapp.RequestHandler):
                  time_format = 'double'
         if time_format:
             if time_format == 'single':
-            	events_query = Event.all().filter('date >= ', date).order('date')
-            if time_format == 'double':
-            	events_query = Event.all().filter('date >= ', start_date)
-                events_query.filter('date <= ', end_date).order('date')
-            events = events_query.fetch(limit = 100)
+                evs = db.GqlQuery("SELECT * FROM Event WHERE end_date >= :1", 
+                                   date)
+                for event in evs:
+                    events.append(event)
+                evs = db.GqlQuery("SELECT * FROM Event WHERE end_date = NULL AND date >= :1",
+                                   date)
+                for event in evs:
+                    events.append(event)
+                events = sorted(events, key=lambda Event: Event.date)
+            
+            if time_format == 'double':  
+                evs = db.GqlQuery("SELECT * FROM Event WHERE date >= :1 AND date <= :2", 
+                                   start_date, end_date)
+                for event in evs:
+                    events.append(event)
+                evs = db.GqlQuery("SELECT * FROM Event WHERE end_date >= :1 AND end_date <= :2", 
+                                   start_date, end_date)
+                for event in evs:
+                    events.append(event)
+                evs = db.GqlQuery("SELECT * FROM Event WHERE date >= :1 AND date >= :2", start_date, end_date)
+            events = sorted(events, key=lambda Event: Event.date)
             for event in events:
                 if len(event.title) < 15:
                     event.divLen = 240
@@ -54,19 +72,7 @@ class TimeFilter(webapp.RequestHandler):
 
         path = os.path.join(os.path.dirname(__file__),'Templates/base-pub.html')
         self.response.out.write(template.render(path,template_values))
-
-class LocationFilter(webapp.RequestHandler):
-    def get(self,city):
-        error = False
-        ev_query = Event.all().ancestor('venue').filter(' city == ', city)
-        events = ev_query.fetch(limit = 100)
-        print events
-        template_values = {'events':events,'error':error}
-
-        path = os.path.join(os.path.dirname(__file__),'Templates/base-pub.html')
-        self.response.out.write(template.render(path,template_values))
-
-application = webapp.WSGIApplication([('/kad/(.*)',TimeFilter),('/kur/(.*)',LocationFilter)],debug=True)
+application = webapp.WSGIApplication([('/kad/(.*)',TimeFilter)],debug=True)
 
 def main():
     run_wsgi_app(application)
