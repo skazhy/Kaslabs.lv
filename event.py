@@ -1,4 +1,5 @@
 import os, cgi, datetime
+from markdown import *
 from dbmodels import *
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
@@ -23,6 +24,8 @@ class EventPage(webapp.RequestHandler):
         else:
             multidate = True
             event.end_time_display = event.end_date.strftime('%R')
+        md = Markdown()
+        event.htmlinfo = md.convert(event.information)
         template_values = {'event':event,
                            'id':id,
                            'multidate':multidate,
