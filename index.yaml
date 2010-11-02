@@ -12,5 +12,10 @@ indexes:
 
 - kind: Event
   properties:
+  - name: end_date
+  - name: date
+
+- kind: Event
+  properties:
   - name: venue.city
   - name: date
