@@ -76,7 +76,12 @@ function addVenue(select) {
     <div class="formPreview">
         <p><strong>{{ event.title }}</strong></p>
         <p>{{ event.information }}</p>
-        <p>Datums: {{ event.date_display }} - Laiks: {{ event.time_display }} </p>
+        {% if event.end_date %}
+            <p><strong>No </strong>{{ event.date_display }} - {{ event.time_display }} 
+            <strong>līdz</strong> {{ event.end_date_display }} - {{ event.end_time_display }}</p>
+        {% else %}
+            <p>{{ event.date_display }} - {{ event.time_display }}</p>
+        {% endif %}
         <p>Norises vieta:  {{ event.venue.title }}</p>
         <p class="editButton">[ Labot ]</p>
     </div>

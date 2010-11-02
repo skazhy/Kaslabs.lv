@@ -10,13 +10,23 @@ class EventPage(webapp.RequestHandler):
         ev_id = int(ev_id)
         event = Event.get_by_id(ev_id)
         try: 
-			event.date_display = event.date.strftime('%-d. %B, %Y')
+            event.date_display = event.date.strftime('%-d. %B, %Y')
         except AttributeError:
-			id = False
+            id = False
         else:
-			id = True
-			event.time_display = event.date.strftime('%R')
-        template_values = {'event':event, 'id':id}
+            id = True
+            event.time_display = event.date.strftime('%R')
+        try:
+            event.end_date_display = event.end_date.strftime('%-d. %B, %Y')
+        except AttributeError:
+            multidate = False
+        else:
+            multidate = True
+            event.end_time_display = event.end_date.strftime('%R')
+        template_values = {'event':event,
+                           'id':id,
+                           'multidate':multidate,
+                          }
         path = os.path.join(os.path.dirname(__file__),'Templates/public-event.html')
         self.response.out.write(template.render(path,template_values))
 

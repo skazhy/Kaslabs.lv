@@ -10,8 +10,16 @@
 	<div id="mainContent" style="width:700px;">
 	{% if id %}
 	<h1>{{ event.title }}</h1>
-	<p><strong>Datums:</strong> {{ event.date_display }} - 
-	<strong>Laiks:</strong> {{ event.time_display }} -
+	<p>
+    {% if multidate %}
+    <strong>Sākuma datums:</strong> {{ event.date_display }} - 
+    <strong>sākuma laiks:</strong> {{ event.time_display }} -
+    <strong>beigu datums:</strong> {{ event.end_date_display }} - 
+    <strong>beigu laiks:</strong> {{ event.end_time_display }} -
+    {% else %}
+    <strong>Datums:</strong> {{ event.date_display }} - 
+    <strong>Laiks:</strong> {{ event.time_display }} -
+    {% endif %}
 	<strong>Vieta:</strong> {{ event.venue.title }}</p>
 	<p>{{ event.information }}</p>
 	<p>{{ event.venue.title }}<br/>
