@@ -81,6 +81,7 @@ class StoreEvent(webapp.RequestHandler):
             event = db.get(self.request.get('eventKey'))
         event.title = self.request.get('eventTitle')
         event.information = self.request.get('eventInfo')
+        event.intro_text = self.request.get('eventIntro')
 
         date = self.request.get('eventDate')
         time = self.request.get('eventTime')		

@@ -52,6 +52,8 @@ function addVenue(select) {
             </select>
         <p>Pasākuma apraksts:</p>
         <textarea name="eventInfo" rows="8" cols="40">{{ event.information }}</textarea>
+        <p>Īss pasākuma apraksts (pirmajai lapai):</p>
+        <textarea name="eventIntro" rows="8" cols="40">{{ event.intro_text }}</textarea>
         <label for="eventDate">Datums (yyyy-mm-dd):</label>
             <input type="text" id="eventDate" name="eventDate" value="{{ event.date_form }}" /><br />
         <label for="eventTime">Laiks (hh:mm):</label>
@@ -75,7 +77,7 @@ function addVenue(select) {
     </form>
     <div class="formPreview">
         <p><strong>{{ event.title }}</strong></p>
-        <p>{{ event.information }}</p>
+        <p>{{ event.intro_text }}</p>
         {% if event.end_date %}
             <p><strong>No </strong>{{ event.date_display }} - {{ event.time_display }} 
             <strong>līdz</strong> {{ event.end_date_display }} - {{ event.end_time_display }}</p>
