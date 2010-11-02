@@ -32,8 +32,7 @@ class TimeFilter(webapp.RequestHandler):
             end_day = int(request[15:17])
             try:
                  start_date = datetime.date(start_year,start_month,start_day)
-                 end_date = datetime.date(end_year,end_month,end_day)
-                 end_date = end_date + timedelta(days=1)
+                 end_date = datetime.datetime(end_year,end_month,end_day,23,59)
             except ValueError:
                  error = True
                  time_format = False
