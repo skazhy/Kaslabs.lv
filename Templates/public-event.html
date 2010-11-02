@@ -25,7 +25,8 @@
 	<p>{{ event.venue.title }}<br/>
 	Adrese: {{ event.venue.address }}<br/>
     	E-adrese: <a href="{{ event.venue.web }}">{{ event.venue.web }}</a><br/> 
-    <a href="http://maps.google.com/maps/api/staticmap?center={{ event.venue.address }}&size=450x450&markers={{ event.venue.address }}&sensor=false" rel="lightbox">karte</a></p>
+    <a href="http://maps.google.com/maps/api/staticmap?center={{ event.venue.address }}&size=450x450&markers={{ event.venue.address }}&sensor=false" 
+    title="&quot;{{ event.venue.title}}&quot;<br />{{ event.venue.address }}"rel="lightbox">karte</a></p>
 	{% else %}
 	<p>Pasākums netika atrasts. Meklē citu ballīti!</p>
 	{% endif %}
