@@ -3,15 +3,15 @@ body {
 	background: url('/Img/bg.jpg') fixed;
 	margin: 20px;
 	padding: 0;
-	//text-align: center; /* this centers the container in IE 5* browsers. The text is then set to the left aligned default in the #container selector */
 	color: #000000;
 }
+
 #container, #container a {
 	width: 100%;
 	text-align:left;
 	text-decoration:none;
-	
 }
+
 #mainContent, a #mainContent, a:visited #mainContent{
 	background:url('/Img/event-bg1.png');
 	color:#e5dcbf;
@@ -31,7 +31,7 @@ body {
 a:hover #mainContent{
 	text-decoration:none;
 	background:url('/Img/event-bg2.png');
-	}
+}
 
 h1{
 	font-size:20px;
@@ -39,13 +39,13 @@ h1{
 	letter-spacing:-0.5px;
 	text-decoration:none;
 	margin-left:70px;
-	}
+}
 
 p {
 	font-size:12px;
 	text-decoration:none;
 	margin-left:70px;
-	}
+}
 
 .time_rotate {
 	position:absolute;
@@ -59,4 +59,9 @@ p {
   	-webkit-transform: rotate(270deg);  /* Saf3.1+, Chrome */
     filter:  progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083);  /* IE6,IE7 */
     -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083)"; /* IE8 */
+}
+
+#headerImg {
+	margin-left:20px;
+	padding-left:10px;
 }

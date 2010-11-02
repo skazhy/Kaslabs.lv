@@ -3,15 +3,15 @@ body {
 	background: url('/Img/bg.jpg') fixed;
 	margin: 20px;
 	padding: 0;
-	text-align: center; /* this centers the container in IE 5* browsers. The text is then set to the left aligned default in the #container selector */
 	color: #000000;
 }
+
 #container, #container a {
 	width: 100%;
 	text-align:left;
 	text-decoration:none;
-	
 }
+
 #mainContent, .mainContent {
 	background:url('/Img/event-bg1.png');
 	color:#e5dcbf;
@@ -33,12 +33,6 @@ h1{
 	font-size:20px;
 	border-bottom:1px solid #e5dcbf;
 	letter-spacing:-0.5px;
-	text-decoration:none;
-	margin-left:70px;
-	}
-
-p {
-	font-size:12px;
 	text-decoration:none;
 	margin-left:70px;
 	}
@@ -73,4 +67,16 @@ p {
 
 .cancelEdit, .editButton {
 	text-decoration:underline;
+}
+
+#datepicker {
+    width:50px;
+}
+
+textarea {
+    display:block;
+    margin-bottom:20px;
+    }
+.venueContainer {
+	border-bottom: 1px solid black;
 }

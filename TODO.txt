@@ -1,8 +1,0 @@
-veel taisaamaas funkcionaalaas lietas:
-========
-1. Salabot autorizaaciju ar Twittera OAuth
-4. Papildus entiitijas datu modeljiem (venue adrese utt) - +/-done 
-6. Pasaakumu sorteeshana
-8. Latviskie meeneshu nosaukumi
-11. Laiku validaacija
-12. Optimizeet lightbox
