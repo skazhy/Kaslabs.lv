@@ -108,19 +108,26 @@ class StoreEvent(webapp.RequestHandler):
                                int(time[3:5]))
         return dt
         
-class DeleteEvent(webapp.RequestHandler):
-    def post(self):            
-        event = Event.get(self.request.get('event'))
-        event.delete()
-        memcache.delete("main_page") 
-        self.redirect('/admin/edit_event')	
+class DeleteEntry(webapp.RequestHandler):
+    def post(self,mode):
+        entry = db.get(self.request.get('entry'))
+        # db.delete(entry)
+        if mode == 'venue':
+                events = Event.all().filter('venue = ',entry)
+                events = events.fetch(limit=1)
+                if len(events) == 0:
+                        db.delete(entry)
+        if mode == 'event':
+                memcache.delete('main_page')
+                db.delete(entry)
+        self.redirect('/admin/edit_%s' % (mode))	
         
 
 application = webapp.WSGIApplication([('/admin', AddEvent),
                                       ('/admin/store_(.*)',StoreEvent),
                                       ('/admin/edit_event',EditEvent),
                                       ('/admin/edit_event/(.*)',EditEvent),
-                                      ('/admin/delete_event',DeleteEvent),
+                                      ('/admin/delete_(.*)',DeleteEntry),
                                       ('/admin/edit_venue',EditVenue),
                                       ('/admin/storevenue',StoreVenue)],
                                      debug=True)

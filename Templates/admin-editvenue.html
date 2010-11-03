@@ -27,6 +27,11 @@ function addVenue(form) {
 	else $(block).css('display','none');
 };
 
+function confirmDelete() {
+    var conf = confirm("Vai tiešām dzēst?");
+    if (conf) return true;
+    return false;
+};
 </script>
 {% endblock header %}
 {% block adm-content %}
@@ -50,6 +55,10 @@ function addVenue(form) {
             <p>Nosaukums: {{ venue.title }}</p>
             <p class="editButton">[ Labot ]</p>
         </div>
+    <form method="post" action="/admin/delete_venue">
+    <input type="hidden" name="entry" value="{{ venue.key }}" />
+    <input type="submit" value="Dzēst norises vietu" onClick="return confirmDelete()" />
+    </form>
 	</div>
 {% endfor %}
 {% endblock adm-content %}

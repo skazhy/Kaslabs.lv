@@ -28,6 +28,13 @@ function addVenue(select) {
     if (s == 'createNew') $(block).css('display','block');
     else $(block).css('display','none');
 };
+
+function confirmDelete() {
+    var conf = confirm("Vai tiešām dzēst?");
+    if (conf) return true;
+    return false;
+};
+
 </script>
 {% endblock header %}
 {% block adm-content %}
@@ -98,8 +105,8 @@ function addVenue(select) {
         <p class="editButton">[ Labot ]</p>
     </div>
     <form method="post" action="/admin/delete_event">
-    <input type="hidden" name="event" value="{{ event.key }}" />
-    <input type="submit" value="Dzēst pasākumu" />
+    <input type="hidden" name="entry" value="{{ event.key }}" />
+    <input type="submit" value="Dzēst pasākumu" onClick="return confirmDelete()" />
     </form>
     </div>
 {% endfor %}
