@@ -4,6 +4,7 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util
 from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.ext.webapp import template
+from google.appengine.api import memcache
 
 class AddEvent(webapp.RequestHandler):
     def get(self):
@@ -69,7 +70,7 @@ class StoreVenue(webapp.RequestHandler):
         venue.city = self.request.get('venueCity')
         venue.address = self.request.get('venueAddress')
         venue.web = self.request.get('venueWeb')
-        
+        memcache.delete("main_page") 
         db.put(venue)
         self.redirect('/admin/edit_venue')	
         
@@ -82,23 +83,10 @@ class StoreEvent(webapp.RequestHandler):
         event.title = self.request.get('eventTitle')
         event.information = self.request.get('eventInfo')
         event.intro_text = self.request.get('eventIntro')
-
-        date = self.request.get('eventDate')
-        time = self.request.get('eventTime')		
-        event.date = datetime.datetime(int(date[0:4]),
-                                       int(date[5:7]),
-                                       int(date[8:10]),
-                                       int(time[0:2]),
-                                       int(time[3:5]))
+        event.date = self.makeDate(self.request.get('eventDate'),self.request.get('eventTime'))
         if (self.request.get('dateType') == 'e'):
-            end_date = self.request.get('eventDate_end')
-            end_time = self.request.get('eventTime_end')
-            event.end_date = datetime.datetime(int(end_date[0:4]),
-                                       int(end_date[5:7]),
-                                       int(end_date[8:10]),
-                                       int(end_time[0:2]),
-                                       int(end_time[3:5]))
-        
+            event.end_date = self.makeDate(self.request.get('eventDate_end'),
+                                           self.request.get('eventTime_end'))
         venueKey = self.request.get('venueKey')
         if venueKey == 'createNew':
             venue = Venue()
@@ -111,13 +99,28 @@ class StoreEvent(webapp.RequestHandler):
             venue = db.get(venueKey)
         event.venue = venue
         db.put(event)
-
+        memcache.delete("main_page") 
         self.redirect('/admin/edit_event')	
+    
+    def makeDate(self,date,time):
+        dt = datetime.datetime(int(date[0:4]), int(date[5:7]),
+                               int(date[8:10]), int(time[0:2]),
+                               int(time[3:5]))
+        return dt
+        
+class DeleteEvent(webapp.RequestHandler):
+    def post(self):            
+        event = Event.get(self.request.get('event'))
+        event.delete()
+        memcache.delete("main_page") 
+        self.redirect('/admin/edit_event')	
+        
 
 application = webapp.WSGIApplication([('/admin', AddEvent),
                                       ('/admin/store_(.*)',StoreEvent),
                                       ('/admin/edit_event',EditEvent),
                                       ('/admin/edit_event/(.*)',EditEvent),
+                                      ('/admin/delete_event',DeleteEvent),
                                       ('/admin/edit_venue',EditVenue),
                                       ('/admin/storevenue',StoreVenue)],
                                      debug=True)

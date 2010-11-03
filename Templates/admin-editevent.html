@@ -97,6 +97,10 @@ function addVenue(select) {
         <p>Norises vieta:  {{ event.venue.title }}</p>
         <p class="editButton">[ Labot ]</p>
     </div>
+    <form method="post" action="/admin/delete_event">
+    <input type="hidden" name="event" value="{{ event.key }}" />
+    <input type="submit" value="Dzēst pasākumu" />
+    </form>
     </div>
 {% endfor %}
 </div>
