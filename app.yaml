@@ -26,6 +26,9 @@ handlers:
 - url: /kur/.*
   script: filter.py
 
+- url: /kad
+  script: main.py 
+
 - url: /kad/(\d+|\d+-\d+)
   script: filter.py
 

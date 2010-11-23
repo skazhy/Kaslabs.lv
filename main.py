@@ -41,7 +41,30 @@ class MainPage(webapp.RequestHandler):
         main_page = template.render(path,template_values)
         return main_page
 
-application = webapp.WSGIApplication([('/', MainPage)],debug=True)
+class TimeMain(webapp.RequestHandler):
+    def get(self):
+        today = datetime.date.today()
+        events = []
+        evs = db.GqlQuery("SELECT * FROM Event WHERE end_date >= :1", today)
+        for event in evs:
+            events.append(event)
+        evs = db.GqlQuery("SELECT * FROM Event WHERE end_date = NULL AND date >= :1", today)
+        for event in evs:
+            events.append(event)
+        events = sorted(events, key=lambda Event: Event.date) 
+        for event in events:
+            if len(event.title) < 15:
+                event.divLen = 240
+            else:
+                event.divLen = 16*len(event.title)
+            event.date_display = event.date.strftime('%R')
+        template_values = {}
+        path = os.path.join(os.path.dirname(__file__),'Templates/public-timeselect.html')
+        self.response.out.write(template.render(path,template_values))
+
+
+
+application = webapp.WSGIApplication([('/', MainPage),('/kad',TimeMain)],debug=True)
 
 def main():
     run_wsgi_app(application)
