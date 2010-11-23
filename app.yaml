@@ -5,7 +5,7 @@ api_version: 1
 
 handlers:
 - url: /
-  script: main.py
+  script: filter.py
 
 #- url: /page/.*
 #  script: main.py
@@ -27,9 +27,9 @@ handlers:
   script: filter.py
 
 - url: /kad
-  script: main.py 
+  script: select.py 
 
-- url: /kad/(\d+|\d+-\d+)
+- url: /kad/(\d+-*|\d+-\d+)
   script: filter.py
 
 - url: /JS
