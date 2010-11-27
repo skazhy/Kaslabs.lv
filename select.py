@@ -38,12 +38,12 @@ class TimeMain(webapp.RequestHandler):
         nextweek += nwe.strftime('%Y%m%d')
 
         # This month
-        calnr = int(today.strftime('%m'))
-        calnr += 1
+        month_nr = int(today.strftime('%m'))
         year = int(today.strftime('%Y'))
-        monthend = datetime.date(year,calnr,1)
+        monthstart = datetime.date(year, month_nr, 1)
+        monthend = datetime.date(year, month_nr + 1, 1)
         monthend = monthend - timedelta(days=1)
-        month = today.strftime('%Y%m%d')
+        month = monthstart.strftime('%Y%m%d')
         month += '-'
         month += monthend.strftime('%Y%m%d')
         
