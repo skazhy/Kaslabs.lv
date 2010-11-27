@@ -1,39 +1,40 @@
-import os, cgi, datetime
-from dbmodels import *
-from datetime import timedelta
+import os
+import cgi
+import datetime
+
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.ext.webapp import template
-from google.appengine.ext import webapp
 from google.appengine.api import memcache
+
+from dbmodels import *
+from datetime import timedelta
 
 class TimeFilter(webapp.RequestHandler):
     def get(self,request=""):
-        if request == "":
-            page = self.getMain()
+        if request:
+            page = self.render_page(request)
         else:
-            page = self.renderPage(request)
+            page = self.get_main()
         self.response.out.write(page)
 
-    def getMain(self):
+    def get_main(self):
         main_page = memcache.get("main_page")
         if main_page is not None:
             return main_page
         else:
-            todays_date = datetime.date.today().strftime('%Y%m%d-')
-            main_page = self.renderPage(todays_date)
+            today = datetime.date.today().strftime('%Y%m%d')
+            main_page = self.render_page(today)
             memcache.add("main_page",main_page,300)
             return main_page
     
-    def renderPage(self,request):
+    def render_page(self,request):
         error = False
         events = []
-        
         if (len(request) != 17) and (len(request) != 8) and (len(request) != 9):
             error = True
 
-        # noparsee requestu un noskaidro laika formaatu
-        if (not error):
+        if not error:
             start_year = int(request[0:4])
             start_month = int(request[4:6])
             start_day = int(request[6:8])
@@ -50,7 +51,7 @@ class TimeFilter(webapp.RequestHandler):
                 if len(request) == 9:
                     time_format = 'cont'
 
-        if (not error):
+        if not error:
             if time_format != 'cont':
                 try:
                     end_year = int(request[9:13])
@@ -67,19 +68,17 @@ class TimeFilter(webapp.RequestHandler):
                     error = True
                     time_format = False
                         
-        # savaac pasaakumus no db
-        if (not error) and (time_format):
-            # pasaakumi no shodienas liidz db galam
+        if not error and time_format:
             if time_format == 'cont':
                 evs = db.GqlQuery("SELECT * FROM Event WHERE end_date >= :1", start_date)
                 for event in evs:
                     events.append(event)
-                    evs = db.GqlQuery("SELECT * FROM Event WHERE end_date = NULL AND date >= :1", start_date)
+                
+                evs = db.GqlQuery("SELECT * FROM Event WHERE end_date = NULL AND date >= :1", start_date)
                 for event in evs:
                     events.append(event)
                 events = sorted(events, key=lambda Event: Event.date)
             
-            # pasaakumi laika apgabalaa (arii vienaa dienaa)
             else:
                 evs = db.GqlQuery("SELECT * FROM Event WHERE date >= :1 AND date <= :2", start_date, end_date)
                 for event in evs:
@@ -89,12 +88,14 @@ class TimeFilter(webapp.RequestHandler):
                     events.append(event)
                 evs = db.GqlQuery("SELECT * FROM Event WHERE date >= :1 AND date >= :2", start_date, end_date)
             events = sorted(events, key=lambda Event: Event.date)
+            
             for event in events:
                 if len(event.title) < 15:
                     event.divLen = 240
                 else:
                     event.divLen = 16*len(event.title)
                 event.date_display = event.date.strftime('%R')
+        
         template_values = {'events':events,'error':error } 
         path = os.path.join(os.path.dirname(__file__),'Templates/base-pub.html')
         page = template.render(path,template_values)
