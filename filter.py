@@ -34,12 +34,13 @@ class TimeFilter(webapp.RequestHandler):
         if (len(request) != 17) and (len(request) != 8) and (len(request) != 9):
             error = True
 
+        # Making start date object.
         if not error:
             start_year = int(request[0:4])
             start_month = int(request[4:6])
             start_day = int(request[6:8])
             try:
-                start_date = datetime.date(start_year,start_month,start_day)
+                start_date = datetime.datetime(start_year,start_month,start_day,0,0)
             except ValueError:
                 time_format = False
                 error = True
@@ -51,6 +52,7 @@ class TimeFilter(webapp.RequestHandler):
                 if len(request) == 9:
                     time_format = 'cont'
 
+        # Making end date object.
         if not error:
             if time_format != 'cont':
                 try:
@@ -61,7 +63,6 @@ class TimeFilter(webapp.RequestHandler):
                     end_year = start_year
                     end_month = start_month
                     end_day = start_day
-                
                 try:
                     end_date = datetime.datetime(end_year,end_month,end_day,23,59)
                 except ValueError:
@@ -74,19 +75,35 @@ class TimeFilter(webapp.RequestHandler):
                 for event in evs:
                     events.append(event)
                 
-                evs = db.GqlQuery("SELECT * FROM Event WHERE end_date = NULL AND date >= :1", start_date)
+                evs = db.GqlQuery("SELECT * FROM Event WHERE end_date = NULL AND date >= :1",
+                                   start_date)
                 for event in evs:
                     events.append(event)
                 events = sorted(events, key=lambda Event: Event.date)
             
             else:
-                evs = db.GqlQuery("SELECT * FROM Event WHERE date >= :1 AND date <= :2", start_date, end_date)
+                time_diff = end_date - start_date
+                length = time_diff.days + 1
+                
+                # One-day events and multi-day events, that start in the timeframe.
+                evs = db.GqlQuery("SELECT * FROM Event WHERE end_date = NULL AND date >= :1 AND date <= :2",
+                                   start_date, end_date)
                 for event in evs:
                     events.append(event)
-                evs = db.GqlQuery("SELECT * FROM Event WHERE end_date >= :1 AND end_date <= :2", start_date, end_date)
+                
+                # Multi-day events that end in the timeframe.
+                evs = db.GqlQuery("SELECT * FROM Event WHERE end_date >= :1 AND end_date <= :2", 
+                                   start_date, end_date)
                 for event in evs:
                     events.append(event)
-                evs = db.GqlQuery("SELECT * FROM Event WHERE date >= :1 AND date >= :2", start_date, end_date)
+
+                # Multi-day events longer than the timeframe.
+                evs = db.GqlQuery("SELECT * FROM Event WHERE length > :1 AND length > 1",
+                                   length)
+                for event in evs:
+                    if event.date < start_date and event.end_date > end_date:
+                        events.append(event)
+
             events = sorted(events, key=lambda Event: Event.date)
             
             for event in events:
@@ -95,7 +112,6 @@ class TimeFilter(webapp.RequestHandler):
                 else:
                     event.divLen = 16*len(event.title)
                 event.date_display = event.date.strftime('%R')
-        
         template_values = {'events':events,'error':error } 
         path = os.path.join(os.path.dirname(__file__),'Templates/base-pub.html')
         page = template.render(path,template_values)

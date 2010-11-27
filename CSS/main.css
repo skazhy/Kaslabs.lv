@@ -65,3 +65,7 @@ p {
 	margin-left:20px;
 	padding-left:10px;
 }
+
+a img {
+    border: none;
+}

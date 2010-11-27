@@ -1,11 +1,16 @@
-import os, datetime, markdown
-from dbmodels import *
+import os
+import datetime
+import markdown
+
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util
 from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.ext.webapp import template
 from google.appengine.api import memcache
 
+from dbmodels import *
+
+# Displaying Event adding form.
 class AddEvent(webapp.RequestHandler):
     def get(self):
         venues_query = Venue.all().order('title')
@@ -14,6 +19,7 @@ class AddEvent(webapp.RequestHandler):
         path = os.path.join(os.path.dirname(__file__),'Templates/admin-addevent.html')
         self.response.out.write(template.render(path,template_values))
 
+# Displaying list of events to edit.
 class EditEvent(webapp.RequestHandler):
     def get(self,page=1):
         epp = 10
@@ -27,7 +33,7 @@ class EditEvent(webapp.RequestHandler):
         events_query = Event.all().order('-date')
         events = events_query.fetch(offset=offset, limit=epp+1)
 
-        # event paging
+        # Event paging
         if len(events) == epp+1:
             older = page+1
             events.pop()
@@ -36,7 +42,7 @@ class EditEvent(webapp.RequestHandler):
         if len(events) == 0:
             older=newer=False
             
-        # event time displaying
+        # Event time displaying
         for event in events:
             event.time_display = event.date.strftime('%R')
             event.date_display = event.date.strftime('%-d. %B, %Y')
@@ -54,6 +60,7 @@ class EditEvent(webapp.RequestHandler):
         path = os.path.join(os.path.dirname(__file__),'Templates/admin-editevent.html')
         self.response.out.write(template.render(path,template_values))
 
+# Displaying list of venues to edit.
 class EditVenue(webapp.RequestHandler):
     def get(self):
         venues_query = Venue.all().order('title')
@@ -63,6 +70,7 @@ class EditVenue(webapp.RequestHandler):
         path = os.path.join(os.path.dirname(__file__),'Templates/admin-editvenue.html')
         self.response.out.write(template.render(path,template_values))
 
+# Saving new / edited venue.
 class StoreVenue(webapp.RequestHandler):
     def post(self):
         venue = db.get(self.request.get('venueKey'))
@@ -74,19 +82,28 @@ class StoreVenue(webapp.RequestHandler):
         db.put(venue)
         self.redirect('/admin/edit_venue')	
         
+# Saving new / edited event.
 class StoreEvent(webapp.RequestHandler):
     def post(self,mode):
         if mode == "new":
             event = Event()
         if mode == "edit":
             event = db.get(self.request.get('eventKey'))
+        
         event.title = self.request.get('eventTitle')
         event.information = self.request.get('eventInfo')
         event.intro_text = self.request.get('eventIntro')
-        event.date = self.makeDate(self.request.get('eventDate'),self.request.get('eventTime'))
+        event.date = self.make_date(self.request.get('eventDate'),self.request.get('eventTime'))
+        
         if (self.request.get('dateType') == 'e'):
-            event.end_date = self.makeDate(self.request.get('eventDate_end'),
-                                           self.request.get('eventTime_end'))
+            event.end_date = self.make_date(self.request.get('eventDate_end'),
+                                            self.request.get('eventTime_end'))
+        if not event.end_date:
+            event.length = 1
+        else:
+            length = event.end_date - event.date
+            event.length = length.days + 1
+
         venueKey = self.request.get('venueKey')
         if venueKey == 'createNew':
             venue = Venue()
@@ -102,12 +119,11 @@ class StoreEvent(webapp.RequestHandler):
         memcache.delete("main_page") 
         self.redirect('/admin/edit_event')	
     
-    def makeDate(self,date,time):
-        dt = datetime.datetime(int(date[0:4]), int(date[5:7]),
-                               int(date[8:10]), int(time[0:2]),
-                               int(time[3:5]))
-        return dt
-        
+    def make_date(self,date,time):
+        return datetime.datetime(int(date[0:4]), int(date[5:7]),
+                                 int(date[8:10]), int(time[0:2]),
+                                 int(time[3:5]))
+
 class DeleteEntry(webapp.RequestHandler):
     def post(self,mode):
         entry = db.get(self.request.get('entry'))

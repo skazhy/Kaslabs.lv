@@ -10,33 +10,34 @@ class TimeMain(webapp.RequestHandler):
     def get(self):
         today = datetime.date.today()
         
-        # riit
-        tm = today + timedelta(days=1);
-        tomorrow=tm.strftime('%Y%m%d')
+        # Tomorrow
+        tomorrow_obj = today + timedelta(days=1);
+        tomorrow=tomorrow_obj.strftime('%Y%m%d')
         
-        # pariit
-        atm = tm + timedelta(days=1);
+        # After 2 days
+        atm = tomorrow_obj + timedelta(days=1);
         atomorrow=atm.strftime('%Y%m%d')
         
-        # aizpariit
+        # After 3 days
         aatm = atm + timedelta(days=1);
         aatomorrow=aatm.strftime('%Y%m%d')
         
-        # shonedeelj
-        dayn = 7 - int(today.strftime('%u'))
-        wn = today + timedelta(days=dayn)
-        week = today.strftime('%Y%m%d')
+        # This week
+        daynumber = int(today.strftime('%u'))
+        week_end = today + timedelta(days=7-daynumber)
+        week_start = today - timedelta(days=daynumber-1)
+        week = week_start.strftime('%Y%m%d')
         week += '-'
-        week += wn.strftime('%Y%m%d')
+        week += week_end.strftime('%Y%m%d')
 
-        # naakoshnedeelj
-        nws = wn + timedelta(days=1)
-        nwe = wn + timedelta(days=7)
+        # Next week
+        nws = week_end + timedelta(days=1)
+        nwe = week_end + timedelta(days=7)
         nextweek = nws.strftime('%Y%m%d')
         nextweek += '-'
         nextweek += nwe.strftime('%Y%m%d')
 
-        # shomeenes
+        # This month
         calnr = int(today.strftime('%m'))
         calnr += 1
         year = int(today.strftime('%Y'))

@@ -11,5 +11,6 @@ class Event(db.Model):
     venue = db.ReferenceProperty(Venue)
     date = db.DateTimeProperty()
     end_date = db.DateTimeProperty()
+    length = db.IntegerProperty()
     information = db.TextProperty()
     intro_text = db.TextProperty()
