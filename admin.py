@@ -149,6 +149,10 @@ class DeleteEntry(webapp.RequestHandler):
                 db.delete(entry)
         self.redirect('/admin/edit_%s' % (mode))	
         
+class ChangeLog(webapp.RequestHandler):
+    def get(self):
+        path = os.path.join(os.path.dirname(__file__),'Templates/admin-changelog.html')
+        self.response.out.write(template.render(path,{}))
 
 application = webapp.WSGIApplication([('/admin', AddEvent),
                                       ('/admin/store_(.*)',StoreEvent),
@@ -156,7 +160,8 @@ application = webapp.WSGIApplication([('/admin', AddEvent),
                                       ('/admin/edit_event/(.*)',EditEvent),
                                       ('/admin/delete_(.*)',DeleteEntry),
                                       ('/admin/edit_venue',EditVenue),
-                                      ('/admin/storevenue',StoreVenue)],
+                                      ('/admin/storevenue',StoreVenue),
+                                      ('/admin/changelog',ChangeLog)],
                                      debug=True)
 
 def main():

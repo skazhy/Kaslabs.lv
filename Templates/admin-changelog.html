@@ -1,0 +1,22 @@
+{% extends "base-adm.html" %}
+{% block header %}
+<link rel="stylesheet" type="text/css" href="/CSS/admin.css" media="screen" />
+{% endblock header %}
+{% block adm-content %}
+<div class="mainContent">
+<p> Zemāk lapas lietojamību ietekmējošās izmaiņas pa versijām. Pilnais saraksts <a href="http://github.com/skazhy/Kaslabs.lv">Githubā</a>.</p>
+    <h2>0.2.9</h2>
+    <ul>
+        <li>Visiem pasākumiem var pievienot/noņemt beigu datumu arī pēc tā pirmreizējās saglabāšanas.</li>
+        <li>Pasākumiem un norises vietām var saglabāt kopijas (lai nav jāveido daudz līdzīgi pasākumi).</li>
+        <li>Pirms norises vietas saglabāšanas var pārbaudīt vai dotā adrese korekti parādās Google Maps bildē.</li>
+        <li>Sīkas izmaiņas pie adminpaneļa izskata.</li>
+    </ul>
+    <hr />
+    <h2>0.2.8</h2>
+    <ul>
+        <li>Sortēšana pa datumiem strādā, kā paredzēts no /kad sadaļas.</li>
+    </ul>
+    <hr />
+    <p>...Par senākām versijām slinkums commitu komentārus skatīties.</p>
+{% endblock adm-content %}

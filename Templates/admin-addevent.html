@@ -5,42 +5,70 @@
 </script>
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js">
 </script>
+<script type="text/javascript" src="/JS/prototype.js"></script>
+<script type="text/javascript" src="/JS/scriptaculous.js?load=effects,builder"></script>
+<script type="text/javascript" src="/JS/lightbox.js"></script> 
+<link rel="stylesheet" href="/CSS/lightbox.css" type="text/css" media="screen" />
 <script type="text/javascript">
-$(document).ready(function () {
-    $("#datepicker_end").datepicker({altField:'#eventDate_end', altFormat:'yy-mm-dd'});
-    $("#datepicker").datepicker({altField:'#eventDate', altFormat:'yy-mm-dd'});
+jQuery(document).ready(function () {
+    jQuery("#datepicker_end").datepicker({altField:'#eventDate_end', altFormat:'yy-mm-dd'});
+    jQuery("#datepicker").datepicker({altField:'#eventDate', altFormat:'yy-mm-dd'});
 
-    var selectValue = $('select option:selected').attr('value');
+    var selectValue = jQuery('select option:selected').attr('value');
     if (selectValue !== 'createNew')  {
-        $("#venueBlock").css("display","none");
+        jQuery("#venueBlock").css("display","none");
     }
-
-    $("#venueKey").change(function() { addVenue(this,selectValue); });
-    $("input[name=dateType]:radio").change(function() { chDate(this); });
-    $("#datepicker_end").css('display','none');
-    $(".datepicker_end").css('display','none');
-    $("#eventTime_end").css('display','none');
+    jQuery('#venueAddress').change( function() { changeMapLink(this); });
+    jQuery("#venueKey").change(function() { addVenue(this,selectValue); });
+    jQuery("input[name=dateType]:radio").change(function() { chDate(this); });
+    jQuery("#datepicker_end").css('display','none');
+    jQuery(".datepicker_end").css('display','none');
+    jQuery("#eventTime_end").css('display','none');
 });
 
 function addVenue(form) {
-    var selectValue = $('select option:selected').attr('value');
-    var block = $(form).siblings('#venueBlock');
-    if (selectValue == 'createNew') $(block).css('display','block');
-    else $(block).css('display','none');
+    var selectValue = jQuery('select option:selected').attr('value');
+    var block = jQuery(form).siblings('#venueBlock');
+    if (selectValue == 'createNew') jQuery(block).css('display','block');
+    else jQuery(block).css('display','none');
 };
 
 function chDate(radio) {
-    var valu = $(radio).attr('value');
+    var valu = jQuery(radio).attr('value');
     if (valu == 's') {
-        $("#datepicker_end").css('display','none');
-        $(".datepicker_end").css('display','none');
-        $("#eventTime_end").css('display','none');
+        jQuery("#datepicker_end").css('display','none');
+        jQuery(".datepicker_end").css('display','none');
+        jQuery("#eventTime_end").css('display','none');
     }
     if (valu == 'e') {
-        $("#datepicker_end").css('display','block');
-        $("h3.datepicker_end").css('display','block');
-        $("#eventTime_end").css('display','inline');
+        jQuery("#datepicker_end").css('display','block');
+        jQuery("h3.datepicker_end").css('display','block');
+        jQuery("#eventTime_end").css('display','inline');
     }
+};
+function changeMapLink(form) {
+    var urlstart = 'http://maps.google.com/maps/api/staticmap?'
+    var new_a = jQuery(form).val();
+    var old_a = jQuery(form).next().children().attr('href');
+    
+    // Existing URL to object
+    var gmaplink = {};
+    var pairs = old_a.substring(old_a.indexOf('?')+1).split('&');
+    for (var i = 0; i < pairs.length; i++) {
+        var pair = pairs[i].split('=');
+        gmaplink[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+    };
+    gmaplink.center=new_a;
+    gmaplink.markers=new_a;
+
+    // Updated object to URL
+    var prs = [];
+    for (var key in gmaplink)
+        if (gmaplink.hasOwnProperty(key))
+            prs.push(encodeURIComponent(key) + '=' + encodeURIComponent(gmaplink[key]));
+    var urlend = prs.join('&');
+    var new_u = urlstart + urlend; 
+    jQuery(form).next().children().attr('href',new_u);
 };
 </script>
 {% endblock header %}
@@ -91,7 +119,8 @@ function chDate(radio) {
             <label for="venueCity">Pilsēta: </label>
                 <input type=text" id="venueCity" name="venueCity" value="" />
             <p>Adrese:</p>
-            <textarea name="venueAddress" rows="8" cols="40"></textarea>
+            <textarea id="venueAddress" name="venueAddress" rows="8" cols="40"></textarea>
+            <p><a href="http://maps.google.com/maps/api/staticmap?center=x&size=450x450&sensor=false&markers=x" rel="lightbox">Pārbaudīt, vai dotā adrese korekti attēlojas Google Maps kartē.</a></p>
             <label for="venueWeb">Mājaslapa: </label>
                 <input type=text" id="venueWeb" name="venueWeb" value="" />
             <hr />
