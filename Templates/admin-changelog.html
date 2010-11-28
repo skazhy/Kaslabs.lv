@@ -7,6 +7,22 @@
 <p> Zemāk lapas lietojamību ietekmējošās izmaiņas pa versijām. Pilnais saraksts <a href="http://github.com/skazhy/Kaslabs.lv">Githubā</a>.</p>
     <h2>0.2.9</h2>
     <ul>
+        <li>Nelielas izmaiņas publisko adrešu shēmā:
+        <ul>
+            <li>Galvenā lapa (&quot;/&quot;) atgriež pasākumus, kas notiek šodien.</li>
+            <li>Statiskajā lapā /kad ir izvēlne ar standarta pieprasījumiem (pasākumi šodien, rīt utt)</li>
+            <li>Visi standarta pieprasījumi ir zem adreses /kad/*, /kad/rit, /kad/sonedel utt
+            <li>Pēc nestandarta laikiem var atlasīt rakstot:
+            <ul>
+                <li>/d/20101128  - atlasīs visus pasākumus dotajā datumā</li>
+                <li>/d/20101128-20101228 - atlasīs visus pasākumus dotajā laika periodā</li>
+                <li>/d/20101128- - atlasīs visus pasākumus, kas sākas dotajā datumā vai vēlāk</li>
+            </ul>
+            </li>
+            <li>Pasākumiem adrese saglabājās vecā - /p/&lt;pasākuma id&gt;</li>
+        </ul>
+        </li>
+        <li>Visiem /kad/ pieprasījumiem hederos rādās attiecīgās bildes (kas labs rīt notiek utt).</li>
         <li>Visiem pasākumiem var pievienot/noņemt beigu datumu arī pēc tā pirmreizējās saglabāšanas.</li>
         <li>Pasākumiem un norises vietām var saglabāt kopijas (lai nav jāveido daudz līdzīgi pasākumi).</li>
         <li>Pirms norises vietas saglabāšanas var pārbaudīt vai dotā adrese korekti parādās Google Maps bildē.</li>

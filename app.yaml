@@ -5,10 +5,7 @@ api_version: 1
 
 handlers:
 - url: /
-  script: filter.py
-
-#- url: /page/.*
-#  script: main.py
+  script: main.py
 
 - url: /admin.*
   script: admin.py
@@ -23,14 +20,14 @@ handlers:
 - url: /p/(\d+)
   script: event.py
 
-- url: /kur/.*
-  script: filter.py
-
 - url: /kad
-  script: select.py 
+  script: main.py 
 
-- url: /kad/(\d+-*|\d+-\d+)
-  script: filter.py
+- url: /d/(\d+-*|\d+-\d+)
+  script: main.py
+
+- url: /kad/(rit|parit|aizparit|sonedel|nakamnedel|somenes)
+  script: main.py
 
 - url: /JS
   static_dir: JS

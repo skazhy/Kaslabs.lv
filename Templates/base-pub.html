@@ -3,7 +3,7 @@
 <link rel="stylesheet" type="text/css" href="/CSS/main.css" media="screen" />
 {% endblock %}
 {% block pageheader %}
-<div id="headerImg"><img src="/Img/kaslabs.png" /></div>
+<div id="headerImg"><img src="/Img/kaslabs-{{ logo }}.png" /></div>
 {% endblock %}
 {% block content %}
 {% for event in events %}
@@ -14,20 +14,9 @@
 	<p><strong style="font-size:10px;">{{ event.venue.title }}</strong></p>
 	</div></a>
 {% endfor %}
-{% if older %}
-<a href="/page/{{ older }}">older</a>
-{% endif %}
 {% if error %}
 	<div id="mainContent" style="width:700px;">
 	<p>Pasākumi netika atrasti. Meklē citu ballīti!</p>
  <a href="/" style="font-size:11px;font-color:#fff;text-decoration:none;"><-- atpakaļ</a></p></div>	
-{% endif %} 
-{% if newer %}
-    {% ifequal newer 1 %}
-    <a href="/">newer</a>
-    {% else %}
-    <a href="/page/{{ newer }}">newer</a>
-    P{% endifequal %}
 {% endif %}
-
-{% endblock %}
+{% endblock content %}
