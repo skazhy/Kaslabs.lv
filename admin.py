@@ -85,9 +85,9 @@ class StoreVenue(webapp.RequestHandler):
 # Saving new / edited event.
 class StoreEvent(webapp.RequestHandler):
     def post(self,mode):
-        if mode == "new":
+        if mode == "new" or self.request.get('eventOc') == 'c':
             event = Event()
-        if mode == "edit":
+        else:
             event = db.get(self.request.get('eventKey'))
         
         event.title = self.request.get('eventTitle')

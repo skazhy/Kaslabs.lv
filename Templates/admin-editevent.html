@@ -74,7 +74,7 @@ function confirmDelete() {
         <label for="eventDate">Datums (yyyy-mm-dd):</label>
             <input type="text" id="eventDate" name="eventDate" value="{{ event.date_form }}" /><br />
         <label for="eventTime">laiks (hh:mm):</label>
-            <input type="text" id="eventTime" name="eventTime" value="{{ event.time_display }}" />
+            <input type="text" id="eventTime" name="eventTime" value="{{ event.time_display }}" />< br/>
         {% endif %}     
         <div class="venueBlock">
             <hr />
@@ -88,7 +88,9 @@ function confirmDelete() {
             <label for="venueWeb">Mājaslapa:</label>
                 <input type=text" id="venueWeb" name="venueWeb" value="" />
             <hr />
-        </div>
+        </div>`
+        <input type="radio" name="eventOc" value="o" checked="checked"/>Saglabāt kā šo pasākumu< hr/>
+        <input type="radio" name="eventOc" value="c" />Saglabāt kā kopiju (oriģinālā izmaiņas nebūs saglabātas)
         <div><input type="submit" value="Labot pasākumu" /></div>
          <p class="cancelEdit">[ Atcelt ]</p>
     </form>
