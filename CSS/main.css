@@ -69,3 +69,11 @@ p {
 a img {
     border: none;
 }
+
+#kad {
+    width:100%;
+    margin:0 auto;
+}
+#kad img {
+float:right;
+}

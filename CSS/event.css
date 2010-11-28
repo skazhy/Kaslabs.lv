@@ -40,3 +40,14 @@ p {
 	font-size:12px;
 	text-decoration:none;
 	}
+#kad {
+    width:100%;
+    margin:0 auto;
+}
+#kad img {
+float:right;
+}
+
+a img {
+    border:none;
+    }
