@@ -57,7 +57,7 @@ h1{
     padding-bottom:20px;
 }
 
-#header a, #header span {
+#header a, #header span, p a {
 	color:#e5dcbf;
 	text-shadow:#000 0px 0px 7px;
 }

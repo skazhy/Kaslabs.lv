@@ -1,30 +1,59 @@
 {% extends "base-adm.html" %}
 {% block header %}
 <link rel="stylesheet" type="text/css" href="/CSS/admin.css" media="screen" />
-<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js">
-</script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript" src="/JS/prototype.js"></script>
+<script type="text/javascript" src="/JS/scriptaculous.js?load=effects,builder"></script>
+<script type="text/javascript" src="/JS/lightbox.js"></script> 
+<link rel="stylesheet" href="/CSS/lightbox.css" type="text/css" media="screen" />
 <script type="text/javascript">
-$(document).ready( function () {
-	$('.forma').css('display','none');
-	$(".editButton").click( function() { editForm(this); });
-	$(".cancelEdit").click( function() { hideForm(this); });
+jQuery(document).ready( function () {
+	jQuery('.forma').css('display','none');
+	jQuery('.editButton').click( function() { editForm(this); });
+	jQuery('.cancelEdit').click( function() { hideForm(this); });
+    jQuery('.venueAddress').change( function() { changeMapLink(this); });
 });
 
 function editForm(button) {
-	$(button).parent().siblings().css("display","block");
-	$(button).parent().css("display","none");
+	jQuery(button).parent().siblings().css("display","block");
+	jQuery(button).parent().css("display","none");
 };
 
 function hideForm(button) {
-	$(button).parent().siblings().css('display','block');
-	$(button).parent().css('display','none');
+	jQuery(button).parent().siblings().css('display','block');
+	jQuery(button).parent().css('display','none');
 };
 
 function addVenue(form) {
-	var selectValue = $('select option:selected').attr('value');
-	var block = $(form).siblings('.venueBlock');
-	if (selectValue == 'createNew') $(block).css('display','block');
-	else $(block).css('display','none');
+	var selectValue = jQuery('select option:selected').attr('value');
+	var block = jQuery(form).siblings('.venueBlock');
+	if (selectValue == 'createNew') jQuery(block).css('display','block');
+	else jQuery(block).css('display','none');
+};
+
+function changeMapLink(form) {
+    var urlstart = 'http://maps.google.com/maps/api/staticmap?'
+    var new_a = jQuery(form).val();
+    var old_a = jQuery(form).next().children().attr('href');
+    
+    // Existing URL to object
+    var gmaplink = {};
+    var pairs = old_a.substring(old_a.indexOf('?')+1).split('&');
+    for (var i = 0; i < pairs.length; i++) {
+        var pair = pairs[i].split('=');
+        gmaplink[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+    };
+    gmaplink.center=new_a;
+    gmaplink.markers=new_a;
+
+    // Updated object to URL
+    var prs = [];
+    for (var key in gmaplink)
+        if (gmaplink.hasOwnProperty(key))
+            prs.push(encodeURIComponent(key) + '=' + encodeURIComponent(gmaplink[key]));
+    var urlend = prs.join('&');
+    var new_u = urlstart + urlend; 
+    jQuery(form).next().children().attr('href',new_u);
 };
 
 function confirmDelete() {
@@ -41,13 +70,19 @@ function confirmDelete() {
             <input type="hidden" value="{{ venue.key }}" name="venueKey" />
             <h4>Labot &quot;{{ venue.title }}&quot;</h4>
             <label for="venueTitle">Nosaukums: </label>
-                <input type=text" id="venueTitle" name="venueTitle" value="{{ venue.title }}" />
+                <input type=text" id="venueTitle" name="venueTitle" value="{{ venue.title }}" /><br />
 			<label for="venueCity">Pilsēta: </label>
                 <input type=text" id="venueCity" name="venueCity" value="{{ venue.city }}" />
             <p>Adrese:</p>
-            <textarea name="venueAddress" rows="8" cols="40">{{ venue.address }}</textarea>
+            <textarea class="venueAddress" name="venueAddress" rows="4" cols="40">{{ venue.address }}</textarea>
+            <p><a href="http://maps.google.com/maps/api/staticmap?center={{ venue.address }}&size=450x450&sensor=false&markers={{ venue.address }}" rel="lightbox">Pārbaudīt, vai izmainīta / esošā adrese korekti attēlojas Google Maps kartē.</a></p>
             <label for="venueWeb">Mājaslapa: </label>
                 <input type=text" id="venueWeb" name="venueWeb" value="{{ venue.web }}" />
+        <hr />
+        <input type="radio" name="venueOc" value="o"id="saveThis" checked="checked"/>
+            <label for="saveThis">Saglabāt kā šo norises vietu</label><br />
+        <input type="radio" name="venueOc" value="c" id="saveCopy" />
+            <label for="saveCopy">Saglabāt kā kopiju (oriģinālā izmaiņas nebūs saglabātas)</label>
             <div><input type="submit" value="Labot norises vietu" /></div>
             <p class="cancelEdit">[ Atcelt ]</p>
         </form>

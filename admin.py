@@ -73,7 +73,10 @@ class EditVenue(webapp.RequestHandler):
 # Saving new / edited venue.
 class StoreVenue(webapp.RequestHandler):
     def post(self):
-        venue = db.get(self.request.get('venueKey'))
+        if self.request.get('venueOc') == 'c':
+            venue = Venue() 
+        else:
+            venue = db.get(self.request.get('venueKey'))
         venue.title = self.request.get('venueTitle')
         venue.city = self.request.get('venueCity')
         venue.address = self.request.get('venueAddress')
@@ -95,9 +98,17 @@ class StoreEvent(webapp.RequestHandler):
         event.intro_text = self.request.get('eventIntro')
         event.date = self.make_date(self.request.get('eventDate'),self.request.get('eventTime'))
         
+        # From add_event
         if (self.request.get('dateType') == 'e'):
             event.end_date = self.make_date(self.request.get('eventDate_end'),
                                             self.request.get('eventTime_end'))
+        
+        # From edit_event
+        if self.request.get('eventDate_end'):
+            event.end_date = self.make_date(self.request.get('eventDate_end'),
+                                            self.request.get('eventTime_end'))
+        else:
+            event.end_date = False;
         if not event.end_date:
             event.length = 1
         else:
