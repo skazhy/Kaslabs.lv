@@ -27,7 +27,7 @@ class TimeFilter(webapp.RequestHandler):
     def get(self,request=""):
         # Renders page with a custom timescale.
         if request:
-            page = self.render_page(request,'main')
+            page = self.render_page(request,'default')
         # Returns the main page
         else:
             page = self.get_main()
@@ -39,7 +39,7 @@ class TimeFilter(webapp.RequestHandler):
             return main_page
         else:
             today = dtfunctions.today()
-            main_page = self.render_page(today,'main')
+            main_page = self.render_page(today,'sodien')
             memcache.add("main_page",main_page,300)
             return main_page
     
