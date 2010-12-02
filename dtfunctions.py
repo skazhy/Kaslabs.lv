@@ -124,8 +124,13 @@ def parse_timescale(timescale):
         month_nr = int(today.strftime('%m'))
         year = int(today.strftime('%Y'))
         monthstart = datetime.date(year, month_nr, 1)
-        monthend = datetime.date(year, month_nr + 1, 1)
-        monthend = monthend - timedelta(days=1)
+        
+        if month_nr == 12:
+            monthend = datetime.date(year,12,31)
+        else:
+            monthend = datetime.date(year, month_nr + 1, 1)
+            monthend = monthend - timedelta(days=1)
+        
         request = monthstart.strftime('%Y%m%d')
         request += '-'
         request += monthend.strftime('%Y%m%d')
