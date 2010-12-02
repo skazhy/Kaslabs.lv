@@ -70,11 +70,44 @@ function changeMapLink(form) {
     var new_u = urlstart + urlend; 
     jQuery(form).next().children().attr('href',new_u);
 };
+
+function valTime() {
+    var start_field = jQuery('#eventTime');
+    var time_mode = jQuery('input:radio:checked').val();
+    var start = jQuery(start_field).val();
+    
+    if (start.length == 0) start = "00";
+    if (start.length == 1 || start.length == 2) start = start+":00";
+    if (start[1] == ":") start = "0"+start; 
+    if (start[start.length-2] == ":") {
+        var finaldigit = start[start.length-1];
+        start = start.substring(0,3)+"0"+finaldigit;
+    }
+    
+    jQuery(start_field).val(start); 
+    
+    if (time_mode != "s") {
+        var end_field = jQuery('#eventTime_end');
+        var end = jQuery(end_field).val();
+    
+        if (end.length == 0) end = "00";
+        if (end.length == 1 || end.length == 2) end = end+":00";
+        if (end[1] == ":") end = "0"+end; 
+   
+        if (end[end.length-2] == ":") {
+                var finaldigit = end[end.length-1];
+                end = end.substring(0,3)+"0"+finaldigit;
+        }
+        
+        jQuery(end_field).val(end); 
+    }
+    return true;
+};
 </script>
 {% endblock header %}
 {% block adm-content %}
 <div id="mainContent">
-    <form action="/admin/store_new" method="post" accept-charset="utf-8">
+    <form action="/admin/store_new" onsubmit="return valTime()"  method="post" />
         <h2>Jauns pasākums:</h2>
         <label for="eventTitle">Nosaukums: </label>
             <input type=text" name="eventTitle" id="eventTitle" value="" />

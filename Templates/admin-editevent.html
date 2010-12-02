@@ -35,13 +35,44 @@ function confirmDelete() {
     return false;
 };
 
+function valTime(form) {
+    var start_field = jQuery(form).children('#eventTime');
+    var time_mode = jQuery(form).children('#eventDate_end').val();
+    var start = jQuery(start_field).val();
+    
+    if (start.length == 0) start = "00";
+    if (start.length == 1 || start.length == 2) start = start+":00";
+    if (start[1] == ":") start = "0"+start; 
+    if (start[start.length-2] == ":") {
+        var finaldigit = start[start.length-1];
+        start = start.substring(0,3)+"0"+finaldigit;
+    }
+    
+    jQuery(start_field).val(start); 
+    
+    if (time_mode != "") {
+        var end_field = jQuery(form).children('#eventTime_end');
+        var end = jQuery(end_field).val();
+    
+        if (end.length == 0) end = "00";
+        if (end.length == 1 || end.length == 2) end = end+":00";
+        if (end[1] == ":") end = "0"+end; 
+   
+        if (end[end.length-2] == ":") {
+                var finaldigit = end[end.length-1];
+                end = end.substring(0,3)+"0"+finaldigit;
+        }
+        jQuery(end_field).val(end); 
+    }
+    return true;
+};
 </script>
 {% endblock header %}
 {% block adm-content %}
 <div id="formWrapper">
 {% for event in events %}
     <div class="mainContent">
-    <form action="/admin/store_edit" class="forma" method="post" >
+    <form action="/admin/store_edit" class="forma" onsubmit="return valTime(this)" method="post"  />
         <h3>Labot &quot;{{ event.title }}&quot;</h3>
         <input type="hidden" name="eventKey" value="{{ event.key }}" />
         <label for="eventTitle">Nosaukums: </label>
@@ -73,10 +104,10 @@ function confirmDelete() {
         <label for="eventTime">Beigu laiks (hh:mm):</label>
             <input type="text" id="eventTime" name="eventTime_end" value="{{ event.time_display }}" /><br />
         {% else %}
-        <label for="eventDate">Beigu datums (yyyy-mm-dd):</label>
-            <input type="text" id="eventDate" name="eventDate_end" value="" /><br />
-        <label for="eventTime">Beigu laiks (hh:mm):</label>
-            <input type="text" id="eventTime" name="eventTime_end" value="" />
+        <label for="eventDate_end">Beigu datums (yyyy-mm-dd):</label>
+            <input type="text" id="eventDate_end" name="eventDate_end" value="" /><br />
+        <label for="eventTime_end">Beigu laiks (hh:mm):</label>
+            <input type="text" id="eventTime_end" name="eventTime_end" value="" />
         {% endif %}     
         <div class="venueBlock">
             <hr />

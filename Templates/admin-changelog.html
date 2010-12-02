@@ -5,9 +5,16 @@
 {% block adm-content %}
 <div class="mainContent">
 <p> Zemāk lapas lietojamību ietekmējošās izmaiņas pa versijām. Pilnais saraksts <a href="http://github.com/skazhy/Kaslabs.lv">Githubā</a>.</p>
-    <h2>0.2.9.2</h2>
+    <h2>0.2.10</h2>
     <ul>
         <li>Atsevišķa hedera bilde šodienas notikumiem.</li>
+        <li>Izmaiņas laiku pievienošanā / labošanā:
+        <ul>
+            <li>Laikus principā var rakstīt bez nullēm ("4" pārvērtīs par "04:00" un "1:5" par "01:05")</li>
+            <li>Tukšs laika lauks tiks interpretēts kā "00:00"</li>
+            <li>Ja pie pasākuma labošanas būs pierakstīts tikai beigu laiks, bet ne datums, tad tas netiks saglabāts.</li>
+        </ul>
+        </li>
     </ul>
     <hr />
     <h2>0.2.9.1</h2>

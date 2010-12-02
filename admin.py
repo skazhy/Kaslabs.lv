@@ -98,13 +98,7 @@ class StoreEvent(webapp.RequestHandler):
         event.intro_text = self.request.get('eventIntro')
         event.date = self.make_date(self.request.get('eventDate'),self.request.get('eventTime'))
         
-        # From add_event
-        if (self.request.get('dateType') == 'e'):
-            event.end_date = self.make_date(self.request.get('eventDate_end'),
-                                            self.request.get('eventTime_end'))
-        
-        # From edit_event
-        if self.request.get('eventDate_end'):
+        if self.request.get('eventTime_end') and self.request.get('eventDate_end'):
             event.end_date = self.make_date(self.request.get('eventDate_end'),
                                             self.request.get('eventTime_end'))
         else:
